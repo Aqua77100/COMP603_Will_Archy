@@ -14,9 +14,10 @@ public class COMP603 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        System.out.println("Test Commit - Archy");
-        System.out.println("Test Commit - William");
+        Player player = new Player("Player1");
+        GameEngine engine = new GameEngine(player);
+        
+        engine.startGame();
     }
     
 }
