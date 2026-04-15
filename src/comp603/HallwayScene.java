@@ -6,14 +6,19 @@ package comp603;
 
 /**
  *
- * @author willpurdon
+ * @author archy
  */
-public class HallwayScene extends Scene {
-    @Override
-    public void enter(GameEngine engine){
-        // stuff goes here
+class HallwayScene extends Scene {
+    public void enter(GameEngine engine) {
+        GameUI.printColored(engine.dm.getDialogue("hallway_intro"), GameUI.CYAN);
+        String choice = GameUI.promptInput(engine.dm.getDialogue("hallway_choice")).toLowerCase();
         
-        // next scene 
-        engine.setScene(new StorageScene());
+        if (choice.equals("c")) {
+            GameUI.printColored(engine.dm.getDialogue("hallway_fail"), GameUI.RED);
+            engine.player.takeDamage(10);
+        } else {
+            GameUI.printColored("You made it through!", GameUI.GREEN);
+            engine.setScene(new StorageScene());
+        }
     }
 }

@@ -6,18 +6,19 @@ package comp603;
 
 /**
  *
- * @author willpurdon
+ * @author archy
  */
-public class GameState {
-    public boolean laserActive = true;
-    public boolean securityWirePuzzleDone = false;
-    public String correctPassword;
-    public int passwordAttempts = 0;
-    
-    public void reset(){
+
+
+class GameState {
+    boolean laserActive = true;
+    boolean securityWirePuzzleDone = false;
+    String correctPassword = "SECURITY";
+    int passwordAttempts = 0;
+
+    void reset() {
         laserActive = true;
         securityWirePuzzleDone = false;
         passwordAttempts = 0;
-        correctPassword = null;
     }
 }

@@ -6,8 +6,20 @@ package comp603;
 
 /**
  *
- * @author willpurdon
+ * @author archy
  */
-public class SecurityScene {
-    
+// --- SCENE 3: SECURITY ---
+class SecurityScene extends Scene {
+    public void enter(GameEngine engine) {
+        GameUI.printColored(engine.dm.getDialogue("security_intro"), GameUI.CYAN);
+        GameUI.printColored(engine.dm.getDialogue("security_wires"), GameUI.YELLOW);
+        GameUI.promptInput("Connect Red to... (Type 'Blue')");
+        
+        String jumbled = GameMechanics.shuffleString(engine.state.correctPassword);
+        GameUI.printColored(engine.dm.getDialogue("security_solved") + jumbled, GameUI.GREEN);
+        engine.state.securityWirePuzzleDone = true;
+        
+        GameUI.printColored("Returning to Storage...", GameUI.YELLOW);
+        engine.setScene(new StorageScene());
+    }
 }

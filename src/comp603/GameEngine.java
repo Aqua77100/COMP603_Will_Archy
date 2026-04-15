@@ -6,49 +6,41 @@ package comp603;
 
 /**
  *
- * @author willpurdon
+ * @author archy
  */
 public class GameEngine {
-    private Player player;
-    private GameState state;
-    private DialogueManager dialogue;
+    public Player player = new Player();
+    public GameState state = new GameState();
+    public DialogueManager dm = new DialogueManager();
     private Scene currentScene;
-    
-    public GameEngine(Player player){
-        this.player = player;
-        this.state = new GameState();
-        this.dialogue = new DialogueManager();
-    }
-    
-    public void startGame(){
-        setScene(new HallwayScene());
-        gameLoop();
-    }
-    
-    public void gameLoop(){
-        while(player.isAlive()){
-            if(currentScene != null){
-                currentScene.enter(this);
-            }
-        }
-    }
-    
-    public void setScene(Scene newScene){
+
+    public void setScene(Scene newScene) {
         this.currentScene = newScene;
     }
-    
-    public Player getPlayer()
-    { 
-        return player; 
+
+    public void startGame() {
+        dm.loadFile("dialogue.txt");
+        player.name = GameUI.promptInput(dm.getDialogue("welcome"));
+        currentScene = new HallwayScene();
+        gameLoop();
     }
-    
-    public GameState getState() 
-    { 
-        return state; 
+
+    private void gameLoop() {
+        while (player.isAlive()) {
+            currentScene.enter(this);
+        }
+        
+        String retry = GameUI.promptInput(dm.getDialogue("death")).toLowerCase();
+        if (retry.equals("y")) {
+            player = new Player();
+            state.reset();
+            startGame();
+        } else {
+            System.out.println("Goodbye, "+player.name);
+        }
     }
-    
-    public DialogueManager getDialogue() 
-    { 
-        return dialogue; 
+
+    public static void main(String[] args) {
+        new GameEngine().startGame();
     }
 }

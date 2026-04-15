@@ -4,10 +4,22 @@
  */
 package comp603;
 
+
 /**
  *
- * @author willpurdon
+ * @author archy
  */
-public class FactoryScene {
-    
+// --- SCENE 4: FACTORY ---
+class FactoryScene extends Scene {
+    public void enter(GameEngine engine) {
+        GameUI.printColored(engine.dm.getDialogue("factory_boss"), GameUI.RED);
+        boolean victory = GameMechanics.playHangman(engine.player, "ROBOT");
+        
+        if (victory) {
+            String choice = GameUI.promptInput("1) Save Robot  2) Abandon Robot");
+            if (choice.equals("1")) GameUI.printColored(engine.dm.getDialogue("win_save"), GameUI.GREEN);
+            else GameUI.printColored(engine.dm.getDialogue("win_abandon"), GameUI.YELLOW);
+            System.exit(0);
+        }
+    }
 }
