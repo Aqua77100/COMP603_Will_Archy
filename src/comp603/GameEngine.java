@@ -20,6 +20,7 @@ public class GameEngine {
 
     public void startGame() {
         dm.loadFile("dialogue.txt");
+        System.out.println(dm.getDialogue("intro"));
         player.name = GameUI.promptInput(dm.getDialogue("welcome"));
         currentScene = new HallwayScene();
         gameLoop();

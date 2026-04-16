@@ -4,8 +4,6 @@
  */
 package comp603;
 
-import java.util.Scanner;
-
 /**
  *
  * @author archy
@@ -27,11 +25,23 @@ public class GameUI {
     }
 
     public static String promptInput(String message) {
-        System.out.print(CYAN + message + " > " + RESET);
+        System.out.print(CYAN + message + " >> " + RESET);
         return scanner.nextLine();
     }
+    
+    public static void pressEnterToContinue() {
+    System.out.print(CYAN + "\n<< Press Enter to continue >>" + RESET);
+    scanner.nextLine();
+    }
+ 
 
     public static void clearScreen() {
-        for (int i = 0; i < 20; i++) System.out.println();
+        for (int i = 0; i < 5; i++){ 
+            if(i == 2){
+                System.out.println("--------");
+            } else{
+                System.out.println();
+            }
+        }
     }
 }
