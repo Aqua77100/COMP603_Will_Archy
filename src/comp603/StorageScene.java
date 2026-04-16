@@ -30,12 +30,21 @@ class StorageScene extends Scene {
                     validItem = true;
                     return;
                 } else if (choice.equals("b") || choice.equals("c")) {
-                    GameUI.clearScreen();
                     GameUI.printColored(engine.dm.getDialogue("storage_success"), GameUI.GREEN);
+                    System.out.println(engine.dm.getDialogue("storage_success2"));
+
+                    GameUI.pressEnterToContinue();
+                    GameUI.clearScreen();
+                    
+                    GameUI.printColored("Opening door...", GameUI.YELLOW);
+                    
+                    GameUI.pressEnterToContinue();
+                    GameUI.clearScreen();
+
                     engine.state.laserActive = false; // Flag set to false so this block is skipped next time
                     validItem = true;
                 } else {
-                    GameUI.printColored("Invalid choice. You must throw an item (a, b, or c)!", GameUI.RED);
+                    GameUI.printColored("Invalid choice. You must throw an item (a, b, or c)", GameUI.RED);
                 }
             }
         }
@@ -52,7 +61,16 @@ class StorageScene extends Scene {
                 String pass = GameUI.promptInput(engine.dm.getDialogue("factory_prompt"));
 
                 if (pass.equalsIgnoreCase(engine.state.correctPassword)) {
-                    GameUI.printColored("Access Granted. Entering Factory...", GameUI.GREEN);
+
+                    GameUI.clearScreen();
+                    GameUI.printColored("Access Granted.", GameUI.GREEN);
+                    System.out.println(engine.player.name + ": \"Hopefully the power grid in here is still intact.\"");
+
+                    GameUI.pressEnterToContinue();
+                    GameUI.clearScreen();
+
+                    GameUI.printColored("Entering Factory...", GameUI.YELLOW);
+
                     GameUI.pressEnterToContinue();
                     GameUI.clearScreen();
                     engine.setScene(new FactoryScene());
@@ -62,7 +80,7 @@ class StorageScene extends Scene {
                     GameUI.printColored("ACCESS DENIED.", GameUI.RED);
                     if (engine.state.passwordAttempts == 3) {
                         System.out.println(engine.dm.getDialogue("factory_hint"));
-                    } else if(engine.state.passwordAttempts > 3){
+                    } else if (engine.state.passwordAttempts > 3) {
                         GameUI.printColored(engine.dm.getDialogue("factory_hint2"), GameUI.YELLOW);
                     }
                     // Loop continues until they get it right or die elsewhere

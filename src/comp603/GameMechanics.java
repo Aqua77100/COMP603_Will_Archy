@@ -42,12 +42,16 @@ public class GameMechanics {
 
             if (won) {
                 GameUI.printColored("The word was: " + word +"\n", GameUI.GREEN);
-                System.out.println(p.name + ": \"What a day. Devon better give me a raise\".");
+                
+                GameUI.pressEnterToContinue();
+                GameUI.clearScreen();
+                
+                System.out.println(p.name + ": \"What a day. Devon better give me a raise.\"");
                 return true;
             }
-
-            GameUI.printColored("\nWord: " + display, GameUI.YELLOW);
-            GameUI.printColored("Attempts before final blow: " + triesLeft, GameUI.CYAN);
+            
+            GameUI.printColored("---\nWord: " + display, GameUI.YELLOW);
+            System.out.println("Attempts before final blow: " + triesLeft);
             String input = GameUI.promptInput("Guess a letter").toUpperCase();
 
             // --- VALIDATION LOGIC ---
@@ -109,7 +113,6 @@ public class GameMechanics {
         GameUI.printColored("Sync: \"Wow you really suck! I guess I gotta find someone else..\"\nSync: \"Do you know how many requests I've sent your company? Takes ages to wipe their data...\"", GameUI.RED);
         System.out.println("Sync charges at you. The last thing you ever will see is a grown-up robot baby.");
         p.takeDamage(10); // Instant death
-        GameUI.printColored("THE END.", GameUI.RED);
         return false;
     }
 }

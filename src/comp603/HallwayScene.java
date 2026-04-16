@@ -22,6 +22,7 @@ class HallwayScene extends Scene {
             
             if (choice.equals("c")) {
                 GameUI.printColored(engine.dm.getDialogue("hallway_fail"), GameUI.RED);
+                
                 engine.player.takeDamage(10);
                 validChoice = true; // Exit loop because they died/finished this scene
             } 

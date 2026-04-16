@@ -13,7 +13,7 @@ package comp603;
 class GameState {
     boolean laserActive = true;
     boolean securityWirePuzzleDone = false;
-    String correctPassword = "SECURITY";
+    String correctPassword = "KNOCKKNOCK";
     int passwordAttempts = 0;
 
     void reset() {

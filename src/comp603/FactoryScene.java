@@ -4,7 +4,6 @@
  */
 package comp603;
 
-
 /**
  *
  * @author archy
@@ -26,7 +25,7 @@ if (victory) {
             boolean finalChoiceMade = false;
 
             while (!finalChoiceMade) {
-                System.out.println("\nSync sparks weakly on the floor. What is your choice?");
+                System.out.println("\n---\nSync sparks weakly on the floor. What is your choice?");
                 String choice = GameUI.promptInput("1) Save Sync  2) Abandon Sync").toLowerCase();
 
                 if (choice.equals("1") || choice.contains("save")) { 
@@ -34,7 +33,7 @@ if (victory) {
                     System.out.println(engine.dm.getDialogue("win_save"));
                     System.out.println(engine.player.name + ": " + engine.dm.getDialogue("win_save_d1"));
                     GameUI.printColored(engine.dm.getDialogue("win_save_d2"), GameUI.RED);
-                    GameUI.printColored(engine.dm.getDialogue("the_end"), GameUI.GREEN);
+                    System.out.println(engine.dm.getDialogue("the_end"));
                     finalChoiceMade = true;
 
                 } else if (choice.equals("2") || choice.contains("abandon")) {
@@ -42,7 +41,7 @@ if (victory) {
                     System.out.println(engine.dm.getDialogue("win_abandon"));
                     GameUI.printColored(engine.dm.getDialogue("win_abandon_d1"), GameUI.RED);
                     System.out.println(engine.player.name + ": " + engine.dm.getDialogue("win_abandon_d2"));
-                    GameUI.printColored(engine.dm.getDialogue("the_end"), GameUI.RED);
+                    System.out.println(engine.dm.getDialogue("the_end"));
                     finalChoiceMade = true;
 
                 } else {
@@ -52,6 +51,7 @@ if (victory) {
             
             // Wait for user to read the final dialogue before closing
             GameUI.pressEnterToContinue();
+            System.out.println("Thank you for playing, "+engine.player.name);
             System.exit(0);
         } else {
             // If victory is false, the player has died. 

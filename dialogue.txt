@@ -1,12 +1,13 @@
 # General
 intro=My boots halt at the facility doors.\nYou: "What have I gotten myself into? I said I wouldn't keep covering his shifts."\nYou: "Whatever... Guess I should log this. Devon better pay me extra."\n
-welcome=Maintainence Staff: 24293, Job: A&W Facility, Please Confirm Name:
+welcome=Maintainence Staff: 24293, Job Site: A&W Facility, Confirm Employee Name:
 choice_a=Choose: a, b, c
 choice_c=Choose: blue, green, yellow
-death=YOU DIED.\nChoices really do add up...\nWould you like to restart? (y/n)
+death=YOU DIED.\nChoices really do add up...
+retry=Would you like to restart? (y/n)
 win_save=I reach out to the robot, sorrow fills my heart.
 win_save_d1="It wasn't mean to be like this... Maybe you do have a use elsewhere."\nMinutes go by as I fix its wires, rebooting its system. Its eyes light up.
-win_save_d2=Robot: "Welcome to A&W, I am Janitorial Bot Three. How can I assist you?".\n
+win_save_d2=Robot: "Welcome to A&W, I am Janitorial Bot Three. How can I assist you?."\n
 the_end=THE END.
 win_abandon=Its eyes flicker as a distorted voice makes you shift your feet.
 win_abandon_d1=Robot: "N-No... Don't leave me. They always leave—I-I J-Janitorial B-Bot Th-"
@@ -14,33 +15,34 @@ win_abandon_d2="What on Earth?"\nMy feet shuffle back, I need to leave. Its word
 
 # Hallway
 hallway_intro=I enter the dimly lit hallway, releasing a sigh of relief as I see no mysterious people.
-hallway_intro_d1="Gosh, what was I even worried about?"\nA system suddenly starts booting, red lasers sweep the floor.\nGuess I take that back.
-hallway_choice=A laser is coming my way, what do I do?\na) Jump over and hope those leg days weren't worth nothing.\nb) Lie down on the floor.\nc) Turn back and run out the door.
-hallway_fail=With the swift motion of your heels, you turn, only to be met by a locked door and a burning sensation on your back.\nThe laser politely stops at the door before passing through you once more. Everything goes black.
+hallway_intro_d1="Gosh, what was I even worried about?"\nA system suddenly starts booting, red lasers sweep the floor. Guess I take that back.
+hallway_choice=---\nA laser is coming my way, what do I do?\na) Jump over and hope those leg days weren't worth nothing.\nb) Lie down on the floor.\nc) Turn back and run out the door.
+hallway_fail=\nWith the swift motion of your heels, you turn, only to be met by a locked door and a burning sensation on your back.\nThe laser politely stops at the door before passing through you once more. Everything goes black.
 hallway_factory=I walk through the hallway on edge.\nThe heat on my cheek begins to burn away at my nape, my arms, biting at my fingertips which clutch my toolbox.\nI pause at the factory door, noting the keypad in front of me.
 
 # Storage
 storage_intro=I escape the laser and run into a random room, a Storage Room.\nThe slamming of the door alerts yet another laser. Seriously?\nI hide under a nearby steel table, noticing the heavy steel door the lasers are guarding.
-storage_choice=I distract the sensor by throwing:\na) An old shoe.\nb) An empty soda can.\nc) A broken metal pipe.
-storage_success=The laser follows it as it clangs on the floor and to the wall.\nThe path is clear, and I jump to the door before its eyes become trained on me.
+storage_choice=---\nI distract the sensor by throwing:\na) An old shoe.\nb) An empty soda can.\nc) A broken metal pipe.
+storage_success=\nThe laser follows it as it clangs on the floor and to the wall.
+storage_success2=The path is clear, and I jump to the door before its eyes become trained on me.
 #added
-storage_fail=Curse modern technology and foam shoes! The shoe made no sound, but your disappointment did.\nThe lasers pointed straight to you with immense speed. Everything burns.
+storage_fail=\nCurse modern technology and foam shoes! The shoe made no sound, but your disappointment did.\nThe lasers pointed straight to you with immense speed. Everything burns.
 
 # Security
-security_intro=The heavy door leads to the Security Office.\nI scan my surroundings, spotting a small robot guarding the terminal. I could turn the lasers off there!\nMy eyes train on its form, seeing its many arms moving through the server shelves while simultaneously cleaning.\nWhy is a networking bot cleaning? Whatever...
-security_wires=I creep over to a terminal box located near the small bot, its sparks showing that it has been tampered with.\nI need to connect the correct wires.
-security_choice=There's three colours: Red, Blue, and Green.
+security_intro=The heavy door leads to the Security Office.\nI scan my surroundings, spotting a small robot guarding the terminal. I could turn the lasers off there!\nMy eyes land on its form, its many arms moving through the server shelves while simultaneously cleaning.\nWhy is a networking bot cleaning? Whatever...
+security_wires=I creep over to a terminal box located near the small bot. A red wire sparks. It has been tampered with.\nI need to connect the correct wires so I can reboot the bot. Maybe it can help me when its not so... evil.\n---
+security_choice=Connect the sparking Red wire to... (Blue/Green/Yellow)
+security_fail=Those sparks turn into something bigger.\nA pair of metallic arms enter your vision through the wild flames.
 security_solved=The robot powers down. Its screen flashes a jumbled word:
 security_final=Robot: "The... password... for... the factory... is..." *static*
 
 # Factory
 factory_prompt=Enter the factory password:
-factory_hint=I hit the screen in anger, I'm gonna destroy this factory, man...\nA small paper falls from behind the screen.\nIt reads: "S-Y".
-factory_hint2=It begins with 'S' and ends with 'Y'.
-
+factory_hint=I hit the screen in anger. I'm gonna destroy this factory, man...\nA small paper falls from behind the screen.\nIt reads: 'common starting for a joke and an action you can do.'
+factory_hint2=Common joke starting and an action... There's a lot of 'K's.
 factory_enter="What the-"\nBefore me stands a bot unlike any other.\nIts face is torn, limbs replaced with those from other robots, its arms flail about.\nThe door locks behind me, a mechanical clicking floods my ears. We lock eyes.
 factory_boss1=???: "You're back! Or are you? Who are you? I don't care! Come play! D-Do you know how to play Hangman?"
-factory_d1="What? L-Look, I just need to shut this system down, man".\nI guess this is what has been using the city's power and water supplies.\nThe jittery voice speaks up.
-factory_boss2=???: "Man... I hang! H-Hangman! Sync wants to play NOW!
+factory_d1="What? L-Look, I just need to shut this system down, man."\nI guess this is what has been using the city's power and water supplies.\nThe jittery voice speaks up.
+factory_boss2=???: "Man... I hang! H-Hangman! Sync wants to play NOW!"
 factory_boss3=Sync: "The word has 5 letters, and if you win, I'll be a nice Sync and let you go!"
 
