@@ -20,6 +20,7 @@ public class GameEngine {
     // Game start-up with dialogue, which then begins the game loop
     public void startGame() {
         // Use the dm object (holding the BufferedReader to read from this txt file)
+        GameUI.clearScreen();
         dm.loadFile("dialogue.txt");
         System.out.println(dm.getDialogue("intro1"));
 
@@ -55,6 +56,17 @@ public class GameEngine {
                 GameUI.printColored("Error: You must enter a valid username to proceed.", GameUI.RED);
             }
         }
+
+        GameUI.clearScreen();
+        GameUI.printColored("Welcome, " + player.name, GameUI.GREEN);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        GameUI.clearScreen();
 
         // Move these OUTSIDE the while loop so they only run once the name is set
         currentScene = new HallwayScene();
