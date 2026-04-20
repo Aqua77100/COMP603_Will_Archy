@@ -7,7 +7,6 @@ package comp603;
 class HallwayScene extends Scene {
 
     public void enter(GameEngine engine) {
-        GameUI.clearScreen(); // "Clear" previous scene
         System.out.println(engine.dm.getDialogue("hallway_intro"));
         System.out.println(engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1"));
         System.out.println(engine.dm.getDialogue("hallway_choice"));

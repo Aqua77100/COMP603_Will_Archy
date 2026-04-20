@@ -66,7 +66,7 @@ public class GameEngine {
         GameUI.printColored("Welcome, " + player.name, GameUI.GREEN);
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

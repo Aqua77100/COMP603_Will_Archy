@@ -29,7 +29,7 @@ storage_fail=\nCurse modern technology and foam shoes! The shoe made no sound, b
 
 # Security
 security_intro=The heavy door leads to the Security Office.\nI scan my surroundings, spotting a small robot guarding the terminal. I could turn the lasers off there!\nMy eyes land on its form, its many arms moving through the server shelves while simultaneously cleaning.\nWhy is a networking bot cleaning? Whatever...
-security_wires=I creep over to a terminal box located near the small bot. A red wire sparks. It has been tampered with.\nI need to connect the correct wires so I can reboot the bot. Maybe it can help me when its not so... evil.\n---
+security_wires=I creep over to a terminal box located near the small bot. A red wire sparks. It has been tampered with.\nMaybe it can help me when its not so... evil.\nI need to connect the correct wires so I can reboot the bot. Wasn't there something in my toolbox about this?\n---
 security_choice=Connect the sparking Red wire to... (Blue/Green/Yellow)
 security_fail=Those sparks turn into something bigger.\nA pair of metallic arms enter your vision through the wild flames.
 security_solved=The robot powers down. Its screen flashes a jumbled word:
