@@ -43,6 +43,11 @@ public class GameEngine {
         GameUI.clearScreen();
 
         System.out.println(dm.getDialogue("intro4"));
+        
+        GameUI.pressEnterToContinue();
+        GameUI.clearScreen();
+
+        System.out.println(dm.getDialogue("intro5"));
 
         boolean validUser = false;
         while (!validUser) {
