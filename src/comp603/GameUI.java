@@ -37,8 +37,8 @@ public class GameUI {
 
     // 'Clears' screen by printing lines to make it seems like new terminal + declutter (user can still scroll back)
     public static void clearScreen() {
-        for (int i = 0; i < 5; i++) {
-            if (i == 2) {
+        for (int i = 0; i < 6; i++) {
+            if (i == 3) {
                 System.out.println("--------");
             } else {
                 System.out.println();

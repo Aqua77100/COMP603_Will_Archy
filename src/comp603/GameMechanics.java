@@ -104,7 +104,7 @@ public class GameMechanics {
                 } else {
                     // Incorrect + hit
                     GameUI.printColored("Sync: \"Got you!\"", GameUI.RED);
-                    p.takeDamage(1);
+                    p.takeDamage(rand.nextInt(3) + 1);
                     GameUI.printColored("That hurt. Health: " + p.health + "/10", GameUI.RESET);
                     if (!p.isAlive()) {
                         return false;
