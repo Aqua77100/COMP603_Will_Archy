@@ -1,11 +1,9 @@
 package comp603;
-
 /**
  *
  * @author archy
  */
 public class GameEngine {
-
     // player, state, and dm (DialogueManager) object creation
     public Player player = new Player();
     public GameState state = new GameState();
