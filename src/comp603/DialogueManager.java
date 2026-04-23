@@ -23,7 +23,7 @@ public class DialogueManager {
                 dialogueData.put(parts[0].trim(), parts[1].trim());
             }
         } catch (IOException e) {
-            System.out.println("Error loading dialogue: " + e.getMessage()); // Trow this if an error occurs
+            System.out.println("Error loading dialogue: " + e.getMessage()); // Throw this if an error occurs
         }
     }
 
