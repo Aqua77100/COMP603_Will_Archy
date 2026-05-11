@@ -8,15 +8,19 @@ import java.util.List;
  * @author archy
  */
 class HallwayScene extends Scene {
+
+    private boolean madeIt = false;
+    
     @Override
     public void buildUI(GameEngine engine) {
-        engine.window.setBackground("hallway.jpg");
+        engine.window.setBackground("src/images/hallwayScene.jpg");
 
         // Load all intro lines into the queue
         loadTextQueue(
-            engine.dm.getDialogue("hallway_intro"),
-            engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1"),
-            engine.dm.getDialogue("hallway_choice")
+                engine.dm.getDialogue("hallway_intro"),
+                engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1"),
+                engine.dm.getDialogue("hallway_intro_d2"),
+                engine.dm.getDialogue("hallway_choice")
         );
 
         // Show first line + continue button
@@ -31,22 +35,29 @@ class HallwayScene extends Scene {
             case "continue":
                 // If there are more lines, show next and keep continue button
                 if (nextLine(engine)) {
+                    if (queueIndex == 3) {
+                        engine.window.setBackground("src/images/hallwaylazer1.jpg");
+                    }
                     showContinueButton(engine);
                 } else {
-                    // Queue exhausted — show the actual choices
-                    List<String[]> choices = new ArrayList<>();
-                    choices.add(new String[]{"A) Crawl under the laser", "a"});
-                    choices.add(new String[]{"B) Sprint through the gap", "b"});
-                    choices.add(new String[]{"C) Walk straight through", "c"});
-                    engine.window.setChoices(choices);
+                    if (madeIt) {
+                        engine.setScene(new StorageScene());
+                    } else {
+                        List<String[]> choices = new ArrayList<>();
+                        choices.add(new String[]{"A) Crawl under the laser", "a"});
+                        choices.add(new String[]{"B) Sprint through the gap", "b"});
+                        choices.add(new String[]{"C) Walk straight through", "c"});
+                        engine.window.setChoices(choices);
+                    }
                 }
                 break;
 
             case "a":
             case "b":
+                madeIt = true;
                 loadTextQueue(
-                    "You made it through!",
-                    engine.player.name + ": \"Gotta hide.\""
+                        "You made it through!",
+                        engine.player.name + ": \"Gotta hide.\""
                 );
                 nextLine(engine);
                 showContinueButton(engine);

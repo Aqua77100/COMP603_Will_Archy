@@ -212,12 +212,15 @@ public class GameWindow extends JFrame {
     public void showTitleScreen(GameEngine engine) {
         //applyWindowFade();
         setBackground("src/images/outside1.jpg");
-        dialogueOverlay.setVisible(false); // hide the dialogue box entirely
+        dialogueOverlay.setVisible(false); // hide the dialogue box
 
         JButton startBtn = new JButton("▶  Start Game");
         // style it, position it centered on screen
         startBtn.addActionListener(e -> {
-            dialogueOverlay.setVisible(true); // bring it back
+            dialogueOverlay.setVisible(true); // bring back dialogue box
+            layeredPane.remove(startBtn);
+            layeredPane.revalidate();
+            layeredPane.repaint();
             engine.setScene(new HallwayScene());
         });
 

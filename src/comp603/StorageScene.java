@@ -9,44 +9,62 @@ import java.util.List;
  */
 // --- SCENE 2: STORAGE ---
 class StorageScene extends Scene {
+    private boolean succeeded = false;
+    
     @Override
     public void buildUI(GameEngine engine) {
-        // 1. Swap background image for this scene
-        engine.window.setBackground("src/comp603/images/hallway.jpg");
+        engine.window.setBackground("src/images/storageentry1.jpg");
 
-        // 2. Show opening dialogue
-        engine.window.showText(
-            engine.dm.getDialogue("hallway_intro") + "\n\n"
-            + engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1")
-            + "\n\n" + engine.dm.getDialogue("hallway_choice")
+        // Load all intro lines into the queue
+        loadTextQueue(
+                engine.dm.getDialogue("storage_intro"),
+                //engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1"),
+                engine.dm.getDialogue("storage_choice")
         );
 
-        // 3. Show the three choices as buttons
-        List<String[]> choices = new ArrayList<>();
-        choices.add(new String[]{"A) Crawl under the laser", "a"});
-        choices.add(new String[]{"B) Sprint through the gap", "b"});
-        choices.add(new String[]{"C) Walk straight through", "c"});
-        engine.window.setChoices(choices);
+        // Show first line + continue button
+        nextLine(engine);
+        showContinueButton(engine);
     }
 
-     @Override
+    @Override
     public void onChoice(GameEngine engine, String key) {
         switch (key) {
-            case "a":
-            case "b":
-                // Success — show reaction text, then a Continue button
-                engine.window.showText(
-                    "You made it through!\n\n"
-                    + engine.player.name + ": \"Gotta hide.\""
-                );
-                List<String[]> next = new ArrayList<>();
-                next.add(new String[]{"Continue →", "next"});
-                engine.window.setChoices(next);
+
+            case "continue":
+                // If there are more lines, show next and keep continue button
+                if (nextLine(engine)) {
+                        showContinueButton(engine);
+                } else{
+                        if (succeeded) {
+                        engine.setScene(new SecurityScene());
+                    }
+                                  
+                 else {
+                    // Queue exhausted — show the actual choices
+                    List<String[]> choices = new ArrayList<>();
+                    choices.add(new String[]{"A) An old shoe", "a"});
+                    choices.add(new String[]{"B) An empty soda can", "b"});
+                    choices.add(new String[]{"C) A broken metal pipe", "c"});
+                    engine.window.setChoices(choices);
+                        }
+                }
                 break;
 
+            case "b":
             case "c":
-                // Fail — take damage, then handle death or continue
-                engine.window.showText(engine.dm.getDialogue("hallway_fail"));
+                succeeded = true;
+                engine.state.laserActive = false;
+                loadTextQueue(
+                        engine.dm.getDialogue("storage_success"),
+                        engine.dm.getDialogue("storage_success2")
+                );
+                nextLine(engine);
+                showContinueButton(engine);
+                break;
+
+            case "a":
+                engine.window.showText(engine.dm.getDialogue("storage_fail"));
                 engine.player.takeDamage(10);
                 engine.window.updateHealth();
                 if (!engine.player.isAlive()) {
@@ -55,8 +73,12 @@ class StorageScene extends Scene {
                 break;
 
             case "next":
-                // Move to the next scene
-                engine.setScene(new StorageScene());
+                // If success queue still has lines, keep advancing
+                if (nextLine(engine)) {
+                    showContinueButton(engine);
+                } else {
+                    engine.setScene(new StorageScene());
+                }
                 break;
         }
     }

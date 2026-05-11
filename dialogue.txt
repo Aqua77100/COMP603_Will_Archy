@@ -14,18 +14,19 @@ username=Maintainence Staff: 24293, Job Site: A&W Facility, Confirm Employee Nam
 
 # Hallway
 hallway_intro=I enter the dimly lit hallway, releasing a sigh of relief as I see no mysterious people.
-hallway_intro_d1="Gosh, what was I even worried about?"\nA system suddenly starts booting, red lasers sweep the floor. Guess I take that back.
+hallway_intro_d1="Gosh, what was I even worried about?"
+hallway_intro_d2=A system suddenly starts booting, red lasers sweep the floor. Guess I take that back.
 hallway_choice=A laser is coming my way, what do I do?\na) Jump over and hope those leg days weren't worth nothing.\nb) Lie down on the floor.\nc) Turn back and run out the door.
 hallway_fail=With the swift motion of your heels, you turn, only to be met by a locked door and a burning sensation on your back.\nThe laser politely stops at the door before passing through you once more. Everything goes black.
 hallway_factory=I walk through the hallway on edge.\nThe heat on my cheeks begins to burn away at my nape, my arms, biting at my fingertips which clutch my toolbox.\nI pause at the factory door, noting the keypad in front of me.
 
 # Storage
 storage_intro=I escape the laser and run into a random room, a Storage Room.\nThe slamming of the door alerts yet another laser. Seriously?\nI hide under a nearby steel table, noticing the heavy steel door the lasers are guarding.
-storage_choice=---\nI distract the sensor by throwing:\na) An old shoe.\nb) An empty soda can.\nc) A broken metal pipe.
-storage_success=\nThe laser follows it as it clangs on the floor and to the wall.
+storage_choice=I distract the sensor by throwing...
+storage_success=The laser follows it as it clangs on the floor and to the wall.
 storage_success2=The path is clear, and I jump to the door before the laser becomes trained on me.
 #added
-storage_fail=\nCurse modern technology and foam shoes! The shoe made no sound, but your disappointment did.\nThe lasers pointed straight to you with immense speed. Everything burns.
+storage_fail=Curse modern technology and foam shoes! The shoe made no sound, but your disappointment did.\nThe lasers pointed straight to you with immense speed. Everything burns.
 
 # Security
 security_intro=The heavy door leads to the Security Office.\nI scan my surroundings, spotting a small robot guarding the terminal. I could turn the lasers off there!\nMy eyes land on its form, its many arms moving through the server shelves while simultaneously cleaning.\nWhy is a networking bot cleaning? Whatever...
