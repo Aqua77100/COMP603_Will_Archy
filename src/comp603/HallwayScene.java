@@ -1,37 +1,74 @@
 package comp603;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author archy
  */
 class HallwayScene extends Scene {
+    @Override
+    public void buildUI(GameEngine engine) {
+        engine.window.setBackground("hallway.jpg");
 
-    public void enter(GameEngine engine) {
-        System.out.println(engine.dm.getDialogue("hallway_intro"));
-        System.out.println(engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1"));
-        System.out.println(engine.dm.getDialogue("hallway_choice"));
+        // Load all intro lines into the queue
+        loadTextQueue(
+            engine.dm.getDialogue("hallway_intro"),
+            engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1"),
+            engine.dm.getDialogue("hallway_choice")
+        );
 
-        boolean validChoice = false;
+        // Show first line + continue button
+        nextLine(engine);
+        showContinueButton(engine);
+    }
 
-        while (!validChoice) {
-            String choice = GameUI.promptInput(engine.dm.getDialogue("choice_a")).toLowerCase();
+    @Override
+    public void onChoice(GameEngine engine, String key) {
+        switch (key) {
 
-            if (choice.equals("c")) {
-                GameUI.clearScreen();
-                GameUI.printColored(engine.dm.getDialogue("hallway_fail"), GameUI.RED);
+            case "continue":
+                // If there are more lines, show next and keep continue button
+                if (nextLine(engine)) {
+                    showContinueButton(engine);
+                } else {
+                    // Queue exhausted — show the actual choices
+                    List<String[]> choices = new ArrayList<>();
+                    choices.add(new String[]{"A) Crawl under the laser", "a"});
+                    choices.add(new String[]{"B) Sprint through the gap", "b"});
+                    choices.add(new String[]{"C) Walk straight through", "c"});
+                    engine.window.setChoices(choices);
+                }
+                break;
+
+            case "a":
+            case "b":
+                loadTextQueue(
+                    "You made it through!",
+                    engine.player.name + ": \"Gotta hide.\""
+                );
+                nextLine(engine);
+                showContinueButton(engine);
+                break;
+
+            case "c":
+                engine.window.showText(engine.dm.getDialogue("hallway_fail"));
                 engine.player.takeDamage(10);
-                validChoice = true; // Exit loop
-            } else if (choice.equals("a") || choice.equals("b")) {
-                GameUI.clearScreen();
-                GameUI.printColored("You made it through!", GameUI.GREEN);
-                System.out.println(engine.player.name + ": \"Gotta hide.\"");
-                GameUI.pressEnterToContinue();
-                engine.setScene(new StorageScene());
-                validChoice = true; // Exit loop to move to the next scene
-            } else {
-                // Invalid input, loop restarts/continues
-                GameUI.printColored("Invalid input. You must choose your method of escape (a, b, or c)", GameUI.RED);
-            }
+                engine.window.updateHealth();
+                if (!engine.player.isAlive()) {
+                    engine.handleDeath();
+                }
+                break;
+
+            case "next":
+                // If success queue still has lines, keep advancing
+                if (nextLine(engine)) {
+                    showContinueButton(engine);
+                } else {
+                    engine.setScene(new StorageScene());
+                }
+                break;
         }
     }
 }
