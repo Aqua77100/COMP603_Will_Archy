@@ -42,6 +42,7 @@ public class GameWindow extends JFrame {
     private JLayeredPane layeredPane;
     private JLabel backgroundImage;
     private JPanel dialogueOverlay;
+    private JPanel fullScreenPanel;
     private JTextArea storyArea;
     private JPanel choicesPanel;
     private JLabel healthLabel;
@@ -65,7 +66,7 @@ public class GameWindow extends JFrame {
                 backgroundImage.setBounds(0, 0, w, h);
 
                 // Dialogue overlay pinned to bottom
-                int overlayHeight = (int) (h * 0.4);
+                int overlayHeight = (int) (h * 0.25); // dialogue box percentage
                 int margin = 20;
                 dialogueOverlay.setBounds(
                         margin, // x (left margin)
@@ -91,13 +92,13 @@ public class GameWindow extends JFrame {
 
     private void buildDialogueOverlay() {
         // Position: sits at the bottom, ~40% of screen height
-        int overlayY = 680 - 280;
+        int overlayY = 680 - 280;   
         dialogueOverlay = new JPanel(new BorderLayout(0, 8)) {
             @Override
             protected void paintComponent(Graphics g) {
                 // Semi-transparent dark background
                 Graphics2D g2 = (Graphics2D) g.create();
-                g2.setColor(new Color(0, 0, 0, 200)); // 200/255 opacity
+                g2.setColor(new Color(0, 0, 0, 80)); // 80/255 opacity
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 12, 12);
                 g2.dispose();
             }
@@ -135,7 +136,7 @@ public class GameWindow extends JFrame {
         SwingUtilities.invokeLater(() -> {
             java.io.File f = new java.io.File(imagePath);
             System.out.println("Loading image: " + f.getAbsolutePath()
-                    + " | exists: " + f.exists()); // ← check this output
+                    + " | exists: " + f.exists()); // check this output
             ImageIcon icon = new ImageIcon(imagePath);
             Image scaled = icon.getImage()
                     .getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
@@ -184,6 +185,52 @@ public class GameWindow extends JFrame {
         });
     }
 
+    public void hideDialogue() {
+        SwingUtilities.invokeLater(() -> {
+            dialogueOverlay.setVisible(false);
+        });
+    }
+
+    public void showDialogue() {
+        SwingUtilities.invokeLater(() -> {
+            dialogueOverlay.setVisible(true);
+        });
+    }
+
+    public void showFullScreenPanel(JPanel panel) {
+        SwingUtilities.invokeLater(() -> {
+            // Remove any previous full screen panel
+            if (fullScreenPanel != null) {
+                layeredPane.remove(fullScreenPanel);
+            }
+            fullScreenPanel = panel;
+            // Position it to fill most of the screen with a small margin
+            int margin = 30;
+            int dialogueHeight = dialogueOverlay.getHeight();
+
+            panel.setBounds(
+                    margin, // x
+                    margin, // y (from top)
+                    getWidth() - (margin * 2), // width
+                    getHeight() - dialogueHeight - (margin * 2) // height stops above dialogue
+            );
+            layeredPane.add(panel, JLayeredPane.MODAL_LAYER); // sits above background, below dialogue
+            layeredPane.revalidate();
+            layeredPane.repaint();
+        });
+    }
+
+    public void hideFullScreenPanel() {
+        SwingUtilities.invokeLater(() -> {
+            if (fullScreenPanel != null) {
+                layeredPane.remove(fullScreenPanel);
+                fullScreenPanel = null;
+                layeredPane.revalidate();
+                layeredPane.repaint();
+            }
+        });
+    }
+
     private JButton makeChoiceButton(String label, String key) {
         JButton btn = new JButton(label);
         btn.setFont(new Font("Monospaced", Font.PLAIN, 13));
@@ -228,18 +275,19 @@ public class GameWindow extends JFrame {
         // position it centered
         startBtn.setBounds(300, 400, 200, 50);
     }
-    
-    private void applyWindowFade(){
+
+    private void applyWindowFade() {
         this.setOpacity(0.0f);
-        Timer timer = new Timer(30, new ActionListener(){
+        Timer timer = new Timer(30, new ActionListener() {
             float opacity = 0.0f;
+
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 opacity += 0.02f;
-                if(opacity >= 1.0f){
+                if (opacity >= 1.0f) {
                     setOpacity(1.0f);
-                    ((Timer)e.getSource()).stop();
-                } else{
+                    ((Timer) e.getSource()).stop();
+                } else {
                     setOpacity(opacity);
                 }
             }

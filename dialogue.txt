@@ -16,7 +16,7 @@ username=Maintainence Staff: 24293, Job Site: A&W Facility, Confirm Employee Nam
 hallway_intro=I enter the dimly lit hallway, releasing a sigh of relief as I see no mysterious people.
 hallway_intro_d1="Gosh, what was I even worried about?"
 hallway_intro_d2=A system suddenly starts booting, red lasers sweep the floor. Guess I take that back.
-hallway_choice=A laser is coming my way, what do I do?\na) Jump over and hope those leg days weren't worth nothing.\nb) Lie down on the floor.\nc) Turn back and run out the door.
+hallway_choice=A laser is coming my way, what do I do?
 hallway_fail=With the swift motion of your heels, you turn, only to be met by a locked door and a burning sensation on your back.\nThe laser politely stops at the door before passing through you once more. Everything goes black.
 hallway_factory=I walk through the hallway on edge.\nThe heat on my cheeks begins to burn away at my nape, my arms, biting at my fingertips which clutch my toolbox.\nI pause at the factory door, noting the keypad in front of me.
 

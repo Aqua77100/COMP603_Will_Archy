@@ -2,122 +2,97 @@ package comp603;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
-/**
- *
- * @author archy
- */
-// --- SCENE 3: SECURITY ---
 class SecurityScene extends Scene {
+
+    private boolean wireSolved = false;
+
     @Override
     public void buildUI(GameEngine engine) {
-        // 1. Swap background image for this scene
-        engine.window.setBackground("src/comp603/images/hallway.jpg");
+        engine.window.setBackground("src/images/security1.jpg");
 
-        // 2. Show opening dialogue
-        engine.window.showText(
-            engine.dm.getDialogue("hallway_intro") + "\n\n"
-            + engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1")
-            + "\n\n" + engine.dm.getDialogue("hallway_choice")
+        loadTextQueue(
+            engine.dm.getDialogue("security_intro"),
+            engine.dm.getDialogue("security_wires")
         );
 
-        // 3. Show the three choices as buttons
-        List<String[]> choices = new ArrayList<>();
-        choices.add(new String[]{"A) Crawl under the laser", "a"});
-        choices.add(new String[]{"B) Sprint through the gap", "b"});
-        choices.add(new String[]{"C) Walk straight through", "c"});
-        engine.window.setChoices(choices);
+        nextLine(engine);
+        showContinueButton(engine);
     }
 
-     @Override
+    @Override
     public void onChoice(GameEngine engine, String key) {
         switch (key) {
-            case "a":
-            case "b":
-                // Success — show reaction text, then a Continue button
-                engine.window.showText(
-                    "You made it through!\n\n"
-                    + engine.player.name + ": \"Gotta hide.\""
-                );
-                List<String[]> next = new ArrayList<>();
-                next.add(new String[]{"Continue →", "next"});
-                engine.window.setChoices(next);
+
+            case "continue":
+                if (nextLine(engine)) {
+                    showContinueButton(engine);
+                } else {
+                    if (wireSolved) {
+                        // Wire puzzle already solved, move on
+                        goToPasswordReveal(engine);
+                    } else {
+                        // Queue exhausted — show the wire puzzle
+                        showWirePuzzle(engine);
+                    }
+                }
                 break;
 
-            case "c":
-                // Fail — take damage, then handle death or continue
-                engine.window.showText(engine.dm.getDialogue("hallway_fail"));
-                engine.player.takeDamage(10);
+            case "wire_solved":
+                wireSolved = true;
+                engine.state.securityWirePuzzleDone = true;
+
+                // Show the jumbled password as a reward
+                String jumbled = GameMechanics.shuffleString(engine.state.correctPassword);
+                loadTextQueue(
+                    "The terminal beeps. Connection established!",
+                    engine.dm.getDialogue("security_final"),
+                    engine.dm.getDialogue("security_solved") + " " + jumbled
+                );
+                nextLine(engine);
+                showContinueButton(engine);
+                break;
+
+            case "wire_failed":
+                engine.player.takeDamage(3);
                 engine.window.updateHealth();
+                engine.window.showText(engine.dm.getDialogue("security_fail"));
                 if (!engine.player.isAlive()) {
                     engine.handleDeath();
                 }
                 break;
 
-            case "next":
-                // Move to the next scene
+            case "continue_to_storage":
                 engine.setScene(new StorageScene());
                 break;
         }
     }
 
-//    public void enter(GameEngine engine) {
-//        System.out.println(engine.dm.getDialogue("security_intro"));
-//
-//        GameUI.pressEnterToContinue();
-//        GameUI.clearScreen();
-//
-//        System.out.println(engine.dm.getDialogue("security_wires"));
-//
-//        // ---- WIRE PUZZLE
-//        boolean wiresConnected = false;
-//        while (!wiresConnected) {
-//            String input = GameUI.promptInput(engine.dm.getDialogue("security_choice")).toLowerCase();
-//            if (input.equals("blue")) {
-//                wiresConnected = true;
-//
-//                GameUI.clearScreen();
-//
-//                GameUI.printColored("The terminal beeps. Connection established!", GameUI.GREEN);
-//
-//            } else if (input.equals("yellow") || input.equals("green")) {
-//                GameUI.clearScreen();
-//                GameUI.printColored(engine.dm.getDialogue("security_fail"), GameUI.RED);
-//                engine.player.takeDamage(10); // Will prompt retry
-//                wiresConnected = true;
-//
-//            } else {
-//                // Reprompt, remaining in loop until correct answer
-//                GameUI.printColored("Incorrect Input. " + engine.dm.getDialogue("choice_c"), GameUI.RED);
-//                wiresConnected = false;
-//            }
-//
-//        }
-//
-//        if (!engine.player.isAlive()) {
-//            return;
-//        }
-//
-//        // Shuffle the password from GameState to create an anagram 
-//        String jumbled = GameMechanics.shuffleString(engine.state.correctPassword);
-//
-//        GameUI.printColored(engine.dm.getDialogue("security_final"), GameUI.RED);
-//        System.out.println(engine.dm.getDialogue("security_solved"));
-//        GameUI.printColored(jumbled, GameUI.RED);
-//        engine.state.securityWirePuzzleDone = true;
-//
-//        GameUI.pressEnterToContinue();
-//        GameUI.clearScreen();
-//
-//        GameUI.printColored("Exiting to Hallway through Storage Room...", GameUI.YELLOW);
-//
-//        GameUI.pressEnterToContinue();
-//        GameUI.clearScreen();
-//
-//        System.out.println(engine.dm.getDialogue("hallway_factory"));
-//        System.out.println(engine.player.name + ": \"This must be what the password was for.\"\n");
-//
-//        // Exit scene
-//        engine.setScene(new StorageScene());
-//    }
+    private void showWirePuzzle(GameEngine engine) {
+       //engine.window.hideDialogue();
+        engine.window.showText("Three wires hang from the terminal. Connect them correctly.");
+        WirePanel wires = new WirePanel(
+            () -> SwingUtilities.invokeLater(() -> {
+                engine.window.hideFullScreenPanel();
+                //engine.window.showDialogue();
+                engine.handleChoice("wire_solved");
+            }),
+            () -> SwingUtilities.invokeLater(() -> engine.handleChoice("wire_failed"))
+        );
+        engine.window.showFullScreenPanel(wires);
+    }
+
+    private void goToPasswordReveal(GameEngine engine) {
+        loadTextQueue(
+            engine.dm.getDialogue("hallway_factory"),
+            engine.player.name + ": \"This must be what the password was for.\""
+        );
+        nextLine(engine);
+
+        // Override continue to go to StorageScene when this queue finishes
+        List<String[]> cont = new ArrayList<>();
+        cont.add(new String[]{"Continue →", "continue_to_storage"});
+        engine.window.setChoices(cont);
+    }
 }
