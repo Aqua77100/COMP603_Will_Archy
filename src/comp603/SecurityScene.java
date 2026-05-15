@@ -13,8 +13,8 @@ class SecurityScene extends Scene {
         engine.window.setBackground("src/images/security1.jpg");
 
         loadTextQueue(
-            engine.dm.getDialogue("security_intro"),
-            engine.dm.getDialogue("security_wires")
+                engine.dm.getDialogue("security_intro"),
+                engine.dm.getDialogue("security_wires")
         );
 
         nextLine(engine);
@@ -46,9 +46,9 @@ class SecurityScene extends Scene {
                 // Show the jumbled password as a reward
                 String jumbled = GameMechanics.shuffleString(engine.state.correctPassword);
                 loadTextQueue(
-                    "The terminal beeps. Connection established!",
-                    engine.dm.getDialogue("security_final"),
-                    engine.dm.getDialogue("security_solved") + " " + jumbled
+                        "The terminal beeps. Connection established!",
+                        engine.dm.getDialogue("security_final"),
+                        engine.dm.getDialogue("security_solved") + " " + jumbled
                 );
                 nextLine(engine);
                 showContinueButton(engine);
@@ -70,23 +70,33 @@ class SecurityScene extends Scene {
     }
 
     private void showWirePuzzle(GameEngine engine) {
-       //engine.window.hideDialogue();
         engine.window.showText("Three wires hang from the terminal. Connect them correctly.");
+
         WirePanel wires = new WirePanel(
-            () -> SwingUtilities.invokeLater(() -> {
-                engine.window.hideFullScreenPanel();
-                //engine.window.showDialogue();
-                engine.handleChoice("wire_solved");
-            }),
-            () -> SwingUtilities.invokeLater(() -> engine.handleChoice("wire_failed"))
+                () -> SwingUtilities.invokeLater(() -> {
+                    engine.window.hideFullScreenPanel();
+                    engine.window.showDialogue();
+                    engine.handleChoice("wire_solved");
+                }),
+                () -> SwingUtilities.invokeLater(() -> {
+                    engine.window.hideFullScreenPanel();
+                    engine.window.showDialogue();
+                    engine.window.showText("The alarm triggers. Security floods the room...");
+                    engine.player.takeDamage(10);
+                    engine.window.updateHealth();
+                    if (!engine.player.isAlive()) {
+                        engine.handleDeath();
+                    }
+                })
         );
+
         engine.window.showFullScreenPanel(wires);
     }
 
     private void goToPasswordReveal(GameEngine engine) {
         loadTextQueue(
-            engine.dm.getDialogue("hallway_factory"),
-            engine.player.name + ": \"This must be what the password was for.\""
+                engine.dm.getDialogue("hallway_factory"),
+                engine.player.name + ": \"This must be what the password was for.\""
         );
         nextLine(engine);
 

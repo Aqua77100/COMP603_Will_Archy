@@ -39,6 +39,11 @@ public class WirePanel extends JPanel {
 
     private String message = "Connect the wires to the correct ports.";
     private Color messageColor = Color.WHITE;
+    
+    // timer stuff
+    private javax.swing.Timer countdownTimer;
+    private int timeLeft = 15; // 15 seconds to solve puzzle
+    private boolean puzzleComplete = false;
 
     // ────────────────────────────────────────────────────────────────────────
     public WirePanel(Runnable onSolved, Runnable onFailed) {
@@ -101,6 +106,8 @@ public class WirePanel extends JPanel {
                 }
             }
         });
+        
+        startCountdown();
     }
 
     // ── Drawing ──────────────────────────────────────────────────────────────
@@ -191,6 +198,22 @@ public class WirePanel extends JPanel {
         g2.setColor(messageColor);
         g2.setFont(new Font("Monospaced", Font.PLAIN, 12));
         g2.drawString(message, 80, panelH - 10);
+        
+        // countdown timer display
+        String timeText = "Time left: " + timeLeft + "s";
+        g2.setFont(new Font("Monospaced", Font.BOLD, 20));
+        
+        if(timeLeft > 10){
+            g2.setColor(Color.GREEN);
+        } else if(timeLeft > 5){
+            g2.setColor(Color.YELLOW);
+        } else{
+            g2.setColor(Color.RED);
+        }
+        
+        FontMetrics fm = g2.getFontMetrics();
+        int timeX = (panelW - fm.stringWidth(timeText)) / 2;
+        g2.drawString(timeText, timeX, 30);
     }
 
     // Draws a smooth curved wire between two points
@@ -212,6 +235,8 @@ public class WirePanel extends JPanel {
         // Check correctness
         boolean correct = Arrays.equals(connections, correctAnswer);
         if (correct) {
+            puzzleComplete = true;
+            countdownTimer.stop();
             message = "Connection established!";
             messageColor = new Color(80, 200, 80);
             repaint();
@@ -234,5 +259,24 @@ public class WirePanel extends JPanel {
             t.setRepeats(false);
             t.start();
         }
+    }
+    
+    private void startCountdown(){
+        countdownTimer = new javax.swing.Timer(1000, e -> {
+            timeLeft--;
+            repaint(); // update display each second
+            if(timeLeft <= 0){
+                countdownTimer.stop();
+                if(!puzzleComplete){
+                    message = "Time's up!";
+                    messageColor = new Color(200,60,50);
+                    repaint();
+                    javax.swing.Timer deathDelay = new javax.swing.Timer(800, d -> onFailed.run());
+                    deathDelay.setRepeats(false);
+                    deathDelay.start();
+                }
+            }
+        });
+        countdownTimer.start();
     }
 }
