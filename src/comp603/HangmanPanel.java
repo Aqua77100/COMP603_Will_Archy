@@ -26,6 +26,7 @@ public class HangmanPanel extends JPanel {
     private final Runnable onWin;
     private final Runnable onLose;
     private final Player player;
+    private final GameEngine engine;
 
     private JLabel wordLabel;
     private JLabel triesLabel;
@@ -34,10 +35,10 @@ public class HangmanPanel extends JPanel {
 
     private static final Random rand = new Random();
 
-    // ────────────────────────────────────────────────────────────────────────
-    public HangmanPanel(String word, Player player, Runnable onWin, Runnable onLose) {
+    public HangmanPanel(String word, GameEngine engine, Runnable onWin, Runnable onLose) {
         this.word = word;
-        this.player = player;
+        this.engine = engine;
+        this.player = engine.player;
         this.onWin = onWin;
         this.onLose = onLose;
 
@@ -153,10 +154,18 @@ public class HangmanPanel extends JPanel {
             if (GameMechanics.rollD12() <= 5) {
                 int dmg = rand.nextInt(3) + 1;
                 player.takeDamage(dmg);
-                message = "Sync throws equipment at you...\nHit! Sync: \"Got you!\"";
+                engine.window.updateHealth();
+                message = "Sync throws equipment at you! Sync: \"Got you!\"";
                 messageColor = new Color(200, 60, 50);
+                if(!player.isAlive()){
+                    puzzleComplete = true;
+                    Timer t = new Timer(800, e -> onLose.run());
+                    t.setRepeats(false);
+                    t.start();
+                    return;
+                }
             } else {
-                message = "Sync throws equipment at you...\nYou dodged it! Sync: \"No!\"";
+                message = "Sync throws equipment at you... But you dodge it! Sync: \"No!\"";
                 messageColor = new Color(210, 170, 50);
             }
         }

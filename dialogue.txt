@@ -6,10 +6,10 @@ retry=Would you like to restart? (y/n)
 
 # Intro
 intro1=The A&W Facility stands mighty against the weathered foliage.\nThe recent power outages in the city have been linked back here, water shortages too, but it has been abandoned for years.
-intro2=A couple of our guys went in there, supposedly they all quit after. Well... they were all no-shows.\nGreat excuse, honestly. Might use it for myself after this job.\n
+intro2=A couple of our guys went in there, supposedly they all quit after. Well... they were all no-shows.\nGreat excuse, honestly. Might use it for myself after this job.
 intro3=Ears perking, my neck snaps in the direction of a bush.\nNope. Let's get this job done and get outta here. Nothing me and my toolbox can't do!
-intro4=Crouching, I check my toolbox to make sure I have everything. In the depths of it, I find a scrunched not I wrote ages ago:\n\n____________________________________\n|                                   |\n| Order ham and cheese for John     |\n|   - NEVER bacon!		    |\n| Pick up kids on Thursday - 2:10PM | \n| Remember general rule:  	    |\n| Red wire ALWAYS with blue wire    |\n|___________________________________|\n
-intro5=My boots halt at the facility doors.\nYou: "What have I gotten myself into? I said I wouldn't keep covering his shifts."\nYou: "Whatever... Guess I should log this. Devon better pay me extra."\n
+intro4=Crouching, I check my toolbox to make sure I have everything. In the depths of it, I find a scrunched note I wrote ages ago.	
+intro5=My boots halt at the facility doors.\nYou: "What have I gotten myself into? I said I wouldn't keep covering his shifts."\nYou: "Whatever... Guess I should log this. Devon better pay me extra."
 username=Maintainence Staff: 24293, Job Site: A&W Facility, Confirm Employee Name:
 
 # Hallway

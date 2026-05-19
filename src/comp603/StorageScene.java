@@ -107,6 +107,7 @@ class StorageScene extends Scene {
     private void showPasswordPrompt(GameEngine engine) {
         engine.window.setBackground("src/images/factorydoor1.jpg");
         engine.window.showText(engine.dm.getDialogue("factory_prompt"));
+        engine.window.setInputActive(true);
 
         JPanel passPanel = new JPanel(new BorderLayout(8, 0));
         passPanel.setOpaque(false);
@@ -133,8 +134,11 @@ class StorageScene extends Scene {
                 BorderFactory.createEmptyBorder(6, 14, 6, 14)
         ));
 
-        Runnable submit = () -> handlePasswordAttempt(engine, passField);
-
+        Runnable submit = () -> {
+            engine.window.setInputActive(false);
+            handlePasswordAttempt(engine, passField);
+        };
+        
         submitBtn.addActionListener(e -> submit.run());
         passField.addActionListener(e -> submit.run());
 

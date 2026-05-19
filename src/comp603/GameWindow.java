@@ -47,6 +47,7 @@ public class GameWindow extends JFrame {
     private JPanel choicesPanel;
     private JLabel healthLabel;
     private GameEngine engine;
+    private boolean inputActive = false;
 
     public GameWindow(GameEngine engine) {
         this.engine = engine;
@@ -55,6 +56,17 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        
+        addKeyListener(new java.awt.event.KeyAdapter(){
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e){
+                if(e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && !inputActive){
+                    engine.handleChoice("continue");
+                }
+            }
+        });
+        setFocusable(true);
+        requestFocusInWindow();
 
         layeredPane = new JLayeredPane() {
             @Override
@@ -80,6 +92,13 @@ public class GameWindow extends JFrame {
 
         buildBackgroundLayer();
         buildDialogueOverlay();
+    }
+    
+    public void setInputActive(boolean active){
+        this.inputActive = active;
+        if(!active){
+            requestFocusInWindow();
+        }
     }
 
     private void buildBackgroundLayer() {
@@ -169,7 +188,7 @@ public class GameWindow extends JFrame {
         for (int i = 0; i < 10; i++) {
             pips.append(i < hp ? "◆" : "◇");
         }
-        healthLabel.setText(pips + "  " + hp + "/10  |  " + engine.player.name);
+        healthLabel.setText(pips + "  " + hp + "/10  |  " + (engine.player.name == null ? "Worker" : engine.player.name));
         healthLabel.setForeground(hp > 6
                 ? new Color(80, 180, 80) : hp > 3
                         ? new Color(210, 170, 50)
@@ -268,7 +287,7 @@ public class GameWindow extends JFrame {
             layeredPane.remove(startBtn);
             layeredPane.revalidate();
             layeredPane.repaint();
-            engine.setScene(new HallwayScene());
+            engine.setScene(new IntroScene());
         });
 
         layeredPane.add(startBtn, JLayeredPane.MODAL_LAYER);

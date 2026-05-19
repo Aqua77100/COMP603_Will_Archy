@@ -30,15 +30,20 @@ class SecurityScene extends Scene {
         switch (key) {
 
             case "continue":
-                if (nextLine(engine)) {
+                if (queueIndex < textQueue.size()) {
+                    nextLine(engine);
                     showContinueButton(engine);
                 } else {
                     if (!wireSolved) {
-                        // Wire puzzle already solved, move on
                         showWirePuzzle(engine);
-                    } else if(!revealDone) {
+                    } else if (!revealDone) {
                         revealDone = true;
                         goToPasswordReveal(engine);
+                    } else {
+                        
+                        List<String[]> cont = new ArrayList<>();
+                        cont.add(new String[]{"Continue →", "continue_to_storage"});
+                        engine.window.setChoices(cont);
                     }
                 }
                 break;
@@ -78,7 +83,7 @@ class SecurityScene extends Scene {
     private void showWirePuzzle(GameEngine engine) {
         engine.window.clearChoices();
         engine.window.setBackground("src/images/wiregame1.jpg");
-        engine.window.showText("Three wires hang from the terminal. Connect them correctly.");
+        engine.window.showText(engine.player.name + ": I only have one shot to connect these correctly.");
 
         WirePanel wires = new WirePanel(
                 () -> SwingUtilities.invokeLater(() -> {
@@ -89,7 +94,7 @@ class SecurityScene extends Scene {
                 () -> SwingUtilities.invokeLater(() -> {
                     engine.window.hideFullScreenPanel();
                     engine.window.showDialogue();
-                    engine.window.showText("The alarm triggers. Security floods the room...");
+                    engine.window.showText("The robot turns around and sees me. Everything fades to black...");
                     engine.player.takeDamage(10);
                     engine.window.updateHealth();
                     if (!engine.player.isAlive()) {
@@ -109,10 +114,6 @@ class SecurityScene extends Scene {
                 engine.dm.getDialogue("hallway_factory4")
         );
         nextLine(engine);
-
-        // Override continue to go to StorageScene when this queue finishes
-        List<String[]> cont = new ArrayList<>();
-        cont.add(new String[]{"Continue →", "continue_to_storage"});
-        engine.window.setChoices(cont);
+        showContinueButton(engine);
     }
 }

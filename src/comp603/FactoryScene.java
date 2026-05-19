@@ -104,7 +104,7 @@ class FactoryScene extends Scene {
         engine.window.clearChoices();
         HangmanPanel hangman = new HangmanPanel(
                 "SHAME",
-                engine.player,
+                engine,
                 () -> SwingUtilities.invokeLater(() -> engine.handleChoice("hangman_won")),
                 () -> SwingUtilities.invokeLater(() -> engine.handleChoice("hangman_lost"))
         );
