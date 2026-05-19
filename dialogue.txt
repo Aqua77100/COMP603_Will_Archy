@@ -15,40 +15,54 @@ username=Maintainence Staff: 24293, Job Site: A&W Facility, Confirm Employee Nam
 # Hallway
 hallway_intro=I enter the dimly lit hallway, releasing a sigh of relief as I see no mysterious people.
 hallway_intro_d1="Gosh, what was I even worried about?"
-hallway_intro_d2=A system suddenly starts booting, red lasers sweep the floor. Guess I take that back.
+hallway_intro_d2=A system suddenly starts booting, red lasers sweep the floor.\nGuess I take that back.
 hallway_choice=A laser is coming my way, what do I do?
 hallway_fail=With the swift motion of your heels, you turn, only to be met by a locked door and a burning sensation on your back.\nThe laser politely stops at the door before passing through you once more. Everything goes black.
-hallway_factory=I walk through the hallway on edge.\nThe heat on my cheeks begins to burn away at my nape, my arms, biting at my fingertips which clutch my toolbox.\nI pause at the factory door, noting the keypad in front of me.
+hallway_factory=I walk through the hallway on edge.\nThe security robot powering down has disabled the laser security system luckily.
+hallway_factory2=I walk through the storage room as sweat drips from my head.\nWhat am I about to face?
+hallway_factory3=I arrive back in the hallway and see the door I must get through.\nThe factory door.
+hallway_factory4=I approach the terminal which asks me for a password.\nThe one the security robot gave me... well sort of..
 
 # Storage
-storage_intro=I escape the laser and run into a random room, a Storage Room.\nThe slamming of the door alerts yet another laser. Seriously?\nI hide under a nearby steel table, noticing the heavy steel door the lasers are guarding.
+storage_intro=I escape the laser and run into a random room\nIt's a Storage Room.
+storage_intro2=The slamming of the door alerts yet another laser.\nSeriously?
+storage_intro3=I hide under a nearby steel table, noticing the heavy steel door the lasers are guarding.
 storage_choice=I distract the sensor by throwing...
-storage_success=The laser follows it as it clangs on the floor and to the wall.
-storage_success2=The path is clear, and I jump to the door before the laser becomes trained on me.
+storage_success=The laser follows it as the item clangs across the floor and to the wall.
+storage_success2=The path is clear!
+storage_success3=I jump to the door before the laser becomes trained on me.
 #added
 storage_fail=Curse modern technology and foam shoes! The shoe made no sound, but your disappointment did.\nThe lasers pointed straight to you with immense speed. Everything burns.
 
 # Security
-security_intro=The heavy door leads to the Security Office.\nI scan my surroundings, spotting a small robot guarding the terminal. I could turn the lasers off there!\nMy eyes land on its form, its many arms moving through the server shelves while simultaneously cleaning.\nWhy is a networking bot cleaning? Whatever...
-security_wires=I creep over to a terminal box located near the small bot. A red wire sparks. It has been tampered with.\nMaybe it can help me when its not so... evil.\nI need to connect the correct wires so I can reboot the bot. Wasn't there something in my toolbox about this?\n---
+security_intro=The heavy door leads to a Security Office.
+security_intro2=I scan the room, spotting a robot in the center of it.\nIt hasn't noticed me yet.
+security_intro3=The open panel on its back looks familiar.\nThen it clicks...
+security_intro4=That's where I disable the lasers!\nI must fix the tampered wires in its back panel, but it mustn't notice me.
+security_wires=I creep over to the robot as it remains fixated on its tasks.\nI observe the panel and the tampered wires. I must fix them...
 security_choice=Connect the sparking Red wire to... (Blue/Green/Yellow)
 security_fail=Those sparks turn into something bigger.\nA pair of metallic arms enter your vision through the wild flames.
 security_solved=The robot powers down. Its screen flashes a jumbled word:
 security_final=Robot: "The... password... for... the factory... is..." *static*
+wires_complete=The terminal it's connected to beeps.\n"Connection Established"
+wires_complete2=The robot starts to glitch. As it begins to break down, the robot tries to say something...
 
 # Factory
 factory_prompt=Enter the factory password:
 factory_hint=I hit the screen in anger. I'm gonna destroy this factory, man...\nA small paper falls from behind the screen.\nIt reads: 'Common starting for a joke and an action you can do.'
 factory_hint2=Common joke beginning and an action... There's a lot of 'K's.
-factory_enter="What the-"\nBefore me stands a bot unlike any other.\nIts face is torn, limbs replaced with those from other robots, its arms flail about.\nThe door locks behind me, a mechanical clicking floods my ears. We lock eyes.
+factory_enter=Before me stands a bot unlike any other.\nIts face is torn and its limbs that appear to be made of other robots parts flail about out of control.
+factory_enter2=The door locks behind me.\nA mechanical clicking floods my ears.\nWe lock eyes.
 factory_boss1=???: "You're back! Or are you? Who are you? I don't care! Come play! D-Do you know how to play Hangman?"
-factory_d1="What? L-Look, I just need to shut this system down, man."\nI guess this is what has been using the city's power and water supplies.\nThe jittery voice speaks up.
+factory_d1=I guess this is what has been using the city's power and water supplies.\nThe jittery voice speaks up.
 factory_boss2=???: "Man... I hang! H-Hangman! Sync wants to play NOW!"
 factory_boss3=Sync: "The word has 5 letters, and if you win, I'll be a nice Sync and let you go!"
 
+sync_choice=Sync sparks weakly on the ground. What is your choice?
 win_save=I reach out to the robot, sorrow fills my heart.
-win_save_d1="It wasn't mean to be like this... Maybe you do have a use elsewhere."\nMinutes go by as I fix its wires, rebooting its system. Its eyes light up.
-win_save_d2=Robot: "Welcome to A&W, I am Janitorial Bot Three. How can I assist you?."\n
+win_save_d1="It wasn't mean to be like this... Maybe you do have a use elsewhere."
+win_save_d2=Minutes go by as I fix its wires, rebooting its system. Its eyes light up.
+win_save_d3=Robot: "Welcome to A&W, I am Janitorial Bot Three. How can I assist you?."
 the_end=THE END.
 win_abandon=Its eyes flicker as a distorted voice makes you shift your feet.
 win_abandon_d1=Robot: "N-No... Don't leave me. They always leave—I-I J-Janitorial B-Bot Th-"

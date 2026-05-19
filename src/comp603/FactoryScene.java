@@ -2,6 +2,7 @@ package comp603;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -9,110 +10,114 @@ import java.util.List;
  */
 // --- SCENE 4: FACTORY ---
 class FactoryScene extends Scene {
-    
+
+    private boolean choseSave = false;
+    private boolean endingStarted = false;
+
     @Override
     public void buildUI(GameEngine engine) {
         // 1. Swap background image for this scene
-        engine.window.setBackground("src/comp603/images/hallway.jpg");
+        engine.window.setBackground("src/comp603/images/factorydoor1.jpg");
 
         // 2. Show opening dialogue
-        engine.window.showText(
-            engine.dm.getDialogue("hallway_intro") + "\n\n"
-            + engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1")
-            + "\n\n" + engine.dm.getDialogue("hallway_choice")
+        loadTextQueue(
+                engine.player.name + ": \"What the-\"",
+                engine.dm.getDialogue("factory_enter"),
+                engine.dm.getDialogue("factory_enter2"),
+                engine.dm.getDialogue("factory_boss1"),
+                engine.player.name + ": \"What? L-Look, I just need to shut this system down!\"",
+                engine.dm.getDialogue("factory_d1"),
+                engine.dm.getDialogue("factory_boss2"),
+                engine.dm.getDialogue("factory_boss3")
         );
 
-        // 3. Show the three choices as buttons
-        List<String[]> choices = new ArrayList<>();
-        choices.add(new String[]{"A) Crawl under the laser", "a"});
-        choices.add(new String[]{"B) Sprint through the gap", "b"});
-        choices.add(new String[]{"C) Walk straight through", "c"});
-        engine.window.setChoices(choices);
+        nextLine(engine);
+        showContinueButton(engine);
     }
 
-     @Override
+    @Override
     public void onChoice(GameEngine engine, String key) {
         switch (key) {
-            case "a":
-            case "b":
-                // Success — show reaction text, then a Continue button
-                engine.window.showText(
-                    "You made it through!\n\n"
-                    + engine.player.name + ": \"Gotta hide.\""
-                );
-                List<String[]> next = new ArrayList<>();
-                next.add(new String[]{"Continue →", "next"});
-                engine.window.setChoices(next);
-                break;
-
-            case "c":
-                // Fail — take damage, then handle death or continue
-                engine.window.showText(engine.dm.getDialogue("hallway_fail"));
-                engine.player.takeDamage(10);
-                engine.window.updateHealth();
-                if (!engine.player.isAlive()) {
-                    engine.handleDeath();
+            case "continue":
+                if (nextLine(engine)) {
+                    showContinueButton(engine);
+                } else {
+                    System.out.println("queue exhausted → " + (endingStarted ? "credits" : "hangman"));
+                    if (endingStarted) {
+                        showCredits(engine);
+                    } else {
+                        showHangman(engine);
+                    }
                 }
                 break;
 
-            case "next":
-                // Move to the next scene
-                engine.setScene(new StorageScene());
+            case "hangman_won":
+                engine.window.hideFullScreenPanel(); 
+                engine.window.hideDialogue();        
+                SwingUtilities.invokeLater(() -> {
+                    engine.window.showDialogue();   
+                    engine.window.showText("Sync sparks weakly on the floor. What is your choice?");
+                    List<String[]> endings = new ArrayList<>();
+                    endings.add(new String[]{"1) Save Sync", "save"});
+                    endings.add(new String[]{"2) Abandon Sync", "abandon"});
+                    engine.window.setChoices(endings);
+                });
+                break;
+
+            case "hangman_lost":
+                engine.window.hideFullScreenPanel();
+                engine.window.showDialogue();
+                engine.handleDeath();
+                break;
+
+            case "save":               
+                choseSave = true;
+                loadTextQueue(
+                        engine.dm.getDialogue("win_save"),
+                        engine.player.name + ": " + engine.dm.getDialogue("win_save_d1"),
+                        engine.dm.getDialogue("win_save_d2"),
+                        engine.dm.getDialogue("win_save_d3")
+                );
+                endingStarted = true;
+                System.out.println("save chosen | queue size: " + textQueue.size() 
+        + " | endingStarted: " + endingStarted);
+                nextLine(engine);
+                showContinueButton(engine);
+                break;
+
+            case "abandon":
+                choseSave = false;
+                loadTextQueue(
+                        engine.dm.getDialogue("win_abandon"),
+                        engine.dm.getDialogue("win_abandon_d1"),
+                        engine.player.name + ": " + engine.dm.getDialogue("win_abandon_d2")
+                );
+                endingStarted = true;
+                nextLine(engine);
+                showContinueButton(engine);
                 break;
         }
+
     }
 
-//    public void enter(GameEngine engine) { // Enter factory scene
-//        System.out.println(engine.player.name + ": " + engine.dm.getDialogue("factory_enter"));
-//        GameUI.printColored(engine.dm.getDialogue("factory_boss1"), GameUI.RED);
-//        System.out.println(engine.player.name + ": " + engine.dm.getDialogue("factory_d1"));
-//        GameUI.printColored(engine.dm.getDialogue("factory_boss2"), GameUI.RED);
-//
-//        GameUI.pressEnterToContinue(); // Pause for immersive feeling
-//        GameUI.clearScreen(); // Print some lines to differenciate scenes
-//
-//        GameUI.printColored(engine.dm.getDialogue("factory_boss3"), GameUI.RED);
-//
-//        // Initiate hangman game with the specified word, game is played out as written in GameMechanics
-//        boolean victory = GameMechanics.playHangman(engine.player, "SHAME");
-//
-//        // If the player defeats the final boss, star this loop
-//        if (victory) {
-//            boolean finalChoiceMade = false;
-//
-//            while (!finalChoiceMade) {
-//                System.out.println("\n---\nSync sparks weakly on the floor. What is your choice?");
-//                String choice = GameUI.promptInput("1) Save Sync 2) Abandon Sync").toLowerCase();
-//
-//                if (choice.equals("1")) {
-//                    GameUI.clearScreen();
-//                    System.out.println(engine.dm.getDialogue("win_save"));
-//                    System.out.println(engine.player.name + ": " + engine.dm.getDialogue("win_save_d1"));
-//                    GameUI.printColored(engine.dm.getDialogue("win_save_d2"), GameUI.RED);
-//                    System.out.println(engine.dm.getDialogue("the_end"));
-//                    finalChoiceMade = true; // Exit loop
-//
-//                } else if (choice.equals("2")) {
-//                    GameUI.clearScreen();
-//                    System.out.println(engine.dm.getDialogue("win_abandon"));
-//                    GameUI.printColored(engine.dm.getDialogue("win_abandon_d1"), GameUI.RED);
-//                    System.out.println(engine.player.name + ": " + engine.dm.getDialogue("win_abandon_d2"));
-//                    System.out.println(engine.dm.getDialogue("the_end"));
-//                    finalChoiceMade = true; // Exit loop
-//                } else {
-//                    // If player puts any other input, restart the prompt again
-//                    GameUI.printColored("\nInvalid input. You must decide Sync's fate: 1 or 2.", GameUI.RED);
-//                }
-//            }
-//
-//            // Wait for user to read the final dialogue before closing
-//            GameUI.pressEnterToContinue();
-//            System.out.println("Thank you for playing, " + engine.player.name);
-//            System.exit(0); // Exit safely
-//        } else {
-//            // If victory is false, the player has died. 
-//            // The GameEngine loop will handle the "Death/Restart" prompt automatically.
-//            return;
-//        }
-//    }
+    private void showHangman(GameEngine engine) {
+        engine.window.clearChoices();
+        HangmanPanel hangman = new HangmanPanel(
+                "SHAME",
+                engine.player,
+                () -> SwingUtilities.invokeLater(() -> engine.handleChoice("hangman_won")),
+                () -> SwingUtilities.invokeLater(() -> engine.handleChoice("hangman_lost"))
+        );
+
+        engine.window.showFullScreenPanel(hangman);
+    }
+
+    private void showCredits(GameEngine engine) {
+        engine.window.setBackground("src/images/credits.jpg");
+        engine.window.showText(
+                engine.dm.getDialogue("the_end") + "\n\n"
+                + "Thank you for playing, " + engine.player.name + "."
+        );
+        engine.window.setChoices(new ArrayList<>());
+    }
 }

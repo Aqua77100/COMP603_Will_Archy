@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 class SecurityScene extends Scene {
 
     private boolean wireSolved = false;
+    private boolean revealDone = false;
 
     @Override
     public void buildUI(GameEngine engine) {
@@ -14,6 +15,9 @@ class SecurityScene extends Scene {
 
         loadTextQueue(
                 engine.dm.getDialogue("security_intro"),
+                engine.dm.getDialogue("security_intro2"),
+                engine.dm.getDialogue("security_intro3"),
+                engine.dm.getDialogue("security_intro4"),
                 engine.dm.getDialogue("security_wires")
         );
 
@@ -29,12 +33,12 @@ class SecurityScene extends Scene {
                 if (nextLine(engine)) {
                     showContinueButton(engine);
                 } else {
-                    if (wireSolved) {
+                    if (!wireSolved) {
                         // Wire puzzle already solved, move on
-                        goToPasswordReveal(engine);
-                    } else {
-                        // Queue exhausted — show the wire puzzle
                         showWirePuzzle(engine);
+                    } else if(!revealDone) {
+                        revealDone = true;
+                        goToPasswordReveal(engine);
                     }
                 }
                 break;
@@ -42,11 +46,13 @@ class SecurityScene extends Scene {
             case "wire_solved":
                 wireSolved = true;
                 engine.state.securityWirePuzzleDone = true;
+                engine.window.setBackground("src/images/robotface.jpg");
 
                 // Show the jumbled password as a reward
                 String jumbled = GameMechanics.shuffleString(engine.state.correctPassword);
                 loadTextQueue(
-                        "The terminal beeps. Connection established!",
+                        engine.dm.getDialogue("wires_complete"),
+                        engine.dm.getDialogue("wires_complete2"),
                         engine.dm.getDialogue("security_final"),
                         engine.dm.getDialogue("security_solved") + " " + jumbled
                 );
@@ -70,6 +76,8 @@ class SecurityScene extends Scene {
     }
 
     private void showWirePuzzle(GameEngine engine) {
+        engine.window.clearChoices();
+        engine.window.setBackground("src/images/wiregame1.jpg");
         engine.window.showText("Three wires hang from the terminal. Connect them correctly.");
 
         WirePanel wires = new WirePanel(
@@ -96,7 +104,9 @@ class SecurityScene extends Scene {
     private void goToPasswordReveal(GameEngine engine) {
         loadTextQueue(
                 engine.dm.getDialogue("hallway_factory"),
-                engine.player.name + ": \"This must be what the password was for.\""
+                engine.dm.getDialogue("hallway_factory2"),
+                engine.dm.getDialogue("hallway_factory3"),
+                engine.dm.getDialogue("hallway_factory4")
         );
         nextLine(engine);
 

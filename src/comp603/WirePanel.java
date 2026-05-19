@@ -37,12 +37,10 @@ public class WirePanel extends JPanel {
     private Runnable onSolved;
     private Runnable onFailed; // optional: if you want wrong answer feedback
 
-    private String message = "Connect the wires to the correct ports.";
-    private Color messageColor = Color.WHITE;
     
     // timer stuff
     private javax.swing.Timer countdownTimer;
-    private int timeLeft = 15; // 15 seconds to solve puzzle
+    private int timeLeft = 60; // time to solve puzzle
     private boolean puzzleComplete = false;
 
     // ────────────────────────────────────────────────────────────────────────
@@ -193,11 +191,6 @@ public class WirePanel extends JPanel {
             g2.drawOval(p.x - PLUG_RADIUS, p.y - PLUG_RADIUS,
                         PLUG_RADIUS * 2, PLUG_RADIUS * 2);
         }
-
-        // ── Message ──────────────────────────────────────────────────────────
-        g2.setColor(messageColor);
-        g2.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        g2.drawString(message, 80, panelH - 10);
         
         // countdown timer display
         String timeText = "Time left: " + timeLeft + "s";
@@ -237,22 +230,16 @@ public class WirePanel extends JPanel {
         if (correct) {
             puzzleComplete = true;
             countdownTimer.stop();
-            message = "Connection established!";
-            messageColor = new Color(80, 200, 80);
             repaint();
             // Small delay so player sees the success message
             Timer t = new Timer(800, e -> onSolved.run());
             t.setRepeats(false);
             t.start();
         } else {
-            message = "Wrong connection! Try again.";
-            messageColor = new Color(200, 60, 50);
             repaint();
             // Reset after a moment
             Timer t = new Timer(1000, e -> {
                 Arrays.fill(connections, -1);
-                message = "Connect the wires to the correct ports.";
-                messageColor = Color.WHITE;
                 repaint();
                 if (onFailed != null) onFailed.run();
             });
@@ -268,8 +255,6 @@ public class WirePanel extends JPanel {
             if(timeLeft <= 0){
                 countdownTimer.stop();
                 if(!puzzleComplete){
-                    message = "Time's up!";
-                    messageColor = new Color(200,60,50);
                     repaint();
                     javax.swing.Timer deathDelay = new javax.swing.Timer(800, d -> onFailed.run());
                     deathDelay.setRepeats(false);

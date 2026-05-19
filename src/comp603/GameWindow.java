@@ -92,7 +92,7 @@ public class GameWindow extends JFrame {
 
     private void buildDialogueOverlay() {
         // Position: sits at the bottom, ~40% of screen height
-        int overlayY = 680 - 280;   
+        int overlayY = 680 - 280;
         dialogueOverlay = new JPanel(new BorderLayout(0, 8)) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -293,5 +293,13 @@ public class GameWindow extends JFrame {
             }
         });
         timer.start();
+    }
+
+    public void clearChoices() {
+        SwingUtilities.invokeLater(() -> {
+            choicesPanel.removeAll();
+            choicesPanel.revalidate();
+            choicesPanel.repaint();
+        });
     }
 }

@@ -26,7 +26,7 @@ public abstract class Scene {
         if (queueIndex < textQueue.size()) {
             engine.window.showText(textQueue.get(queueIndex));
             queueIndex++;
-            return queueIndex < textQueue.size(); // true = more lines remain
+            return true;
         }
         return false;
     }
