@@ -48,7 +48,7 @@ public class IntroScene extends Scene {
                             engine.window.setBackground("src/images/sighting1.jpg");
                             break;
                         case 4:
-                            engine.window.setBackground("src/images/toolbox1.jpg");
+                            engine.window.setBackground("src/images/toolbox2.jpg");
                             break;
                         case 5:
                             engine.window.setBackground("src/images/buildingdoor.jpg");
@@ -106,6 +106,7 @@ public class IntroScene extends Scene {
                 engine.window.showText("You must enter a name to proceed.");
                 return;
             }
+            engine.window.setBackground("");
             engine.player.name = name;
             engine.window.setInputActive(false);
             engine.window.showPanel(new JPanel()); // clear input

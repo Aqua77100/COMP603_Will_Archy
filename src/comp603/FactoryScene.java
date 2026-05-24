@@ -39,7 +39,45 @@ class FactoryScene extends Scene {
     public void onChoice(GameEngine engine, String key) {
         switch (key) {
             case "continue":
-                if (nextLine(engine)) {
+                if (queueIndex < textQueue.size()) {
+                    nextLine(engine);
+                    if (!endingStarted) {
+                        switch (queueIndex) {
+                            case 2:
+                                engine.window.setBackground("src/images/sync1.jpg");
+                                break;
+                            case 3:
+                                engine.window.setBackground("src/images/sync_eyes1.jpg");
+                                break;
+                        }
+                    } else if (choseSave) {
+                        // save
+                        switch (queueIndex) {
+                            case 2:
+                                engine.window.setBackground("");
+                                break;
+                            case 3:
+                                engine.window.setBackground("src/images/sync_fix1.jpg");
+                                break;
+                            case 4:
+                                engine.window.setBackground("src/images/sync_save1.jpg");
+                                break;
+                        }
+                    } else{
+                        // abandon
+                        System.out.println("abandon");
+                        switch (queueIndex) {
+                            
+                            case 2:
+                                engine.window.setBackground("src/images/sync_reachout.jpg");
+                                break;
+                            case 3:
+                                engine.window.setBackground("");
+                                break;
+
+                        }
+                    }
+
                     showContinueButton(engine);
                 } else {
                     System.out.println("queue exhausted → " + (endingStarted ? "credits" : "hangman"));
@@ -52,10 +90,11 @@ class FactoryScene extends Scene {
                 break;
 
             case "hangman_won":
-                engine.window.hideFullScreenPanel(); 
-                engine.window.hideDialogue();        
+                engine.window.hideFullScreenPanel();
+                engine.window.hideDialogue();
                 SwingUtilities.invokeLater(() -> {
-                    engine.window.showDialogue();   
+                    engine.window.setBackground("src/images/sync_defeat1.jpg");
+                    engine.window.showDialogue();
                     engine.window.showText("Sync sparks weakly on the floor. What is your choice?");
                     List<String[]> endings = new ArrayList<>();
                     endings.add(new String[]{"1) Save Sync", "save"});
@@ -70,7 +109,7 @@ class FactoryScene extends Scene {
                 engine.handleDeath();
                 break;
 
-            case "save":               
+            case "save":
                 choseSave = true;
                 loadTextQueue(
                         engine.dm.getDialogue("win_save"),
@@ -79,8 +118,8 @@ class FactoryScene extends Scene {
                         engine.dm.getDialogue("win_save_d3")
                 );
                 endingStarted = true;
-                System.out.println("save chosen | queue size: " + textQueue.size() 
-        + " | endingStarted: " + endingStarted);
+                System.out.println("save chosen | queue size: " + textQueue.size()
+                        + " | endingStarted: " + endingStarted);
                 nextLine(engine);
                 showContinueButton(engine);
                 break;
@@ -101,6 +140,7 @@ class FactoryScene extends Scene {
     }
 
     private void showHangman(GameEngine engine) {
+        engine.window.setBackground("src/images/sync_hangman1.jpg");
         engine.window.clearChoices();
         HangmanPanel hangman = new HangmanPanel(
                 "SHAME",

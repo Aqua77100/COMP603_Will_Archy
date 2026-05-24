@@ -24,7 +24,7 @@ public class GameEngine {
         //window.showText(dm.getDialogue("intro1"));
         
         window.showTitleScreen(this);
-        //currentScene = new HallwayScene();
+        //currentScene = new FactoryScene();
         //currentScene.buildUI(this);
     }
 

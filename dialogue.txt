@@ -19,7 +19,6 @@ hallway_intro_d2=A system suddenly starts booting, red lasers sweep the floor.\n
 hallway_choice=A laser is coming my way, what do I do?
 hallway_fail=With the swift motion of your heels, you turn, only to be met by a locked door and a burning sensation on your back.\nThe laser politely stops at the door before passing through you once more. Everything goes black.
 hallway_factory=I walk through the hallway on edge.\nThe security robot powering down has disabled the laser security system luckily.
-hallway_factory2=I walk through the storage room as sweat drips from my head.\nWhat am I about to face?
 hallway_factory3=I arrive back in the hallway and see the door I must get through.\nThe factory door.
 hallway_factory4=I approach the terminal which asks me for a password.\nThe one the security robot gave me... well sort of..
 
@@ -28,7 +27,6 @@ storage_intro=I escape the laser and run into a random room\nIt's a Storage Room
 storage_intro2=The slamming of the door alerts yet another laser.\nSeriously?
 storage_intro3=I hide under a nearby steel table, noticing the heavy steel door the lasers are guarding.
 storage_choice=I distract the sensor by throwing...
-storage_success=The laser follows it as the item clangs across the floor and to the wall.
 storage_success2=The path is clear!
 storage_success3=I jump to the door before the laser becomes trained on me.
 #added

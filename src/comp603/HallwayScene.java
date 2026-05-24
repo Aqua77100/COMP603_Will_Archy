@@ -1,5 +1,6 @@
 package comp603;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ class HallwayScene extends Scene {
     
     @Override
     public void buildUI(GameEngine engine) {
-        engine.window.setBackground("src/images/hallwayScene.jpg");
+        engine.window.setBackground("src/images/hallwaylazer_off.jpg");
 
         // Load all intro lines into the queue
         loadTextQueue(
@@ -37,6 +38,10 @@ class HallwayScene extends Scene {
                 if (nextLine(engine)) {
                     if (queueIndex == 3) {
                         engine.window.setBackground("src/images/hallwaylazer1.jpg");
+                    } else if(queueIndex == 4){
+                        engine.window.setBackground("src/images/hallwaylazer_death.jpg");
+                    } else if(queueIndex == 5){
+                        engine.window.setBackground(Color.BLACK);
                     }
                     showContinueButton(engine);
                 } else {
@@ -54,6 +59,7 @@ class HallwayScene extends Scene {
 
             case "a":
             case "b":
+                engine.window.setBackground("");
                 madeIt = true;
                 loadTextQueue(
                         "You made it through!",

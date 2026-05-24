@@ -250,7 +250,12 @@ public class WirePanel extends JPanel {
     
     private void startCountdown(){
         countdownTimer = new javax.swing.Timer(1000, e -> {
+            if(puzzleComplete){
+                countdownTimer.stop();
+                return;
+            }
             timeLeft--;
+            System.out.println(timeLeft);
             repaint(); // update display each second
             if(timeLeft <= 0){
                 countdownTimer.stop();
@@ -263,5 +268,12 @@ public class WirePanel extends JPanel {
             }
         });
         countdownTimer.start();
+    }
+    
+    public void stop(){
+        if(countdownTimer != null){
+            countdownTimer.stop();
+        }
+        puzzleComplete = true;
     }
 }

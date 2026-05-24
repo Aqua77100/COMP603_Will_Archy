@@ -30,7 +30,7 @@ class StorageScene extends Scene {
 
         // Returning from security — show password prompt
         if (engine.state.securityWirePuzzleDone) {
-            System.out.println("→ going to password prompt");
+            System.out.println("going to password prompt");
             showPasswordPrompt(engine);
             return;
         }
@@ -41,11 +41,11 @@ class StorageScene extends Scene {
             engine.setScene(new SecurityScene());
             return;
         }
-        
+
         System.out.println("→ showing laser puzzle");
 
         // First visit — show laser puzzle
-        engine.window.setBackground("src/images/storageentry1.jpg");
+        engine.window.setBackground("src/images/storageentry_lazeroff.jpg");
         loadTextQueue(
                 engine.dm.getDialogue("storage_intro"),
                 engine.dm.getDialogue("storage_intro2"),
@@ -61,17 +61,48 @@ class StorageScene extends Scene {
         switch (key) {
 
             case "continue":
-                if (nextLine(engine)) {
+                if (queueIndex < textQueue.size()) {
+                    nextLine(engine);
+                    if (!succeeded) {
+                        // Intro queue background swaps
+                        switch (queueIndex) {
+                            case 2:
+                                engine.window.setBackground("src/images/storageentry1.jpg");
+                                break;
+                            case 3:
+                                engine.window.setBackground("src/images/storagehide1.jpg");
+                                break;
+                        }
+                        if(queueIndex == 2 && !accessGranted){
+                            engine.window.setBackground("src/images/storageentry1.jpg");
+                        } else if(queueIndex == 3 && !accessGranted){
+                            engine.window.setBackground("src/images/storagehide1.jpg");
+                        } else if(queueIndex == 2){
+                            engine.window.setBackground("src/images/factorydoor_open.jpg");
+                        } else if(queueIndex == 3){
+                            engine.window.setBackground("");
+                        }
+                        
+                    } else {
+                        // Success queue background swaps
+                        switch (queueIndex) {
+                            case 2:
+                                // keep same background, do nothing
+                                System.out.println(queueIndex);
+                                break;
+                            case 3:
+                                engine.window.setBackground(""); 
+                                System.out.println(queueIndex);
+                                break;
+                        }
+                    }
                     showContinueButton(engine);
                 } else {
                     if (accessGranted) {
-                        // Password queue exhausted → go to factory
                         engine.setScene(new FactoryScene());
                     } else if (succeeded) {
-                        // Laser success queue exhausted → go to security
                         engine.setScene(new SecurityScene());
                     } else {
-                        // Intro queue exhausted → show item choices
                         List<String[]> choices = new ArrayList<>();
                         choices.add(new String[]{"A) An old shoe", "a"});
                         choices.add(new String[]{"B) An empty soda can", "b"});
@@ -81,11 +112,23 @@ class StorageScene extends Scene {
                 }
                 break;
 
-            case "b":
-            case "c":
+            case "b": // can
+                engine.window.setBackground("src/images/storageentry_can.jpg");
                 succeeded = true;
                 loadTextQueue(
-                        engine.dm.getDialogue("storage_success"),
+                        "The laser follows it as the can rolls across the floor and to the wall.",
+                        engine.dm.getDialogue("storage_success2"),
+                        engine.dm.getDialogue("storage_success3")
+                );
+                nextLine(engine);
+                showContinueButton(engine);
+                break;
+
+            case "c": // pipe
+                engine.window.setBackground("src/images/storageentry_pipe.jpg");
+                succeeded = true;
+                loadTextQueue(
+                        "The laser follows it as the pipe clangs across the floor and to the wall.",
                         engine.dm.getDialogue("storage_success2"),
                         engine.dm.getDialogue("storage_success3")
                 );
@@ -105,7 +148,6 @@ class StorageScene extends Scene {
     }
 
     private void showPasswordPrompt(GameEngine engine) {
-        engine.window.setBackground("src/images/factorydoor1.jpg");
         engine.window.showText(engine.dm.getDialogue("factory_prompt"));
         engine.window.setInputActive(true);
 
@@ -138,7 +180,7 @@ class StorageScene extends Scene {
             engine.window.setInputActive(false);
             handlePasswordAttempt(engine, passField);
         };
-        
+
         submitBtn.addActionListener(e -> submit.run());
         passField.addActionListener(e -> submit.run());
 

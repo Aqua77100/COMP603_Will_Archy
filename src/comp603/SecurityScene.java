@@ -32,6 +32,32 @@ class SecurityScene extends Scene {
             case "continue":
                 if (queueIndex < textQueue.size()) {
                     nextLine(engine);
+                    System.out.println("Queue: " + queueIndex);
+                    if(queueIndex == 3 && !wireSolved){
+                        engine.window.setBackground("src/images/robotwire_closeup1.jpg");
+                    } else if(queueIndex == 5 && !wireSolved){
+                        engine.window.setBackground("");
+                    }
+                    else if(queueIndex == 2 && wireSolved && !revealDone){
+                        engine.window.setBackground("src/images/robotface.jpg"); 
+                        System.out.println("first image");
+                    } else if(queueIndex == 3 && wireSolved && !revealDone){
+                        engine.window.setBackground("src/images/robotmouth1.jpg"); 
+                        System.out.println("second image");
+                    } else if(queueIndex == 4 && wireSolved && !revealDone){
+                        engine.window.setBackground("src/images/securityrobot_death1.jpg"); 
+                        System.out.println("terminal with word image");
+                    }  else if(queueIndex == 2 && revealDone){
+                        engine.window.setBackground("src/images/factorydoor1.jpg"); 
+                        System.out.println("arrive at door");
+                    } else if(queueIndex == 3 && revealDone){
+                        engine.window.setBackground("src/images/password_terminal1.jpg"); 
+                        System.out.println("pasword");
+                    } else if(queueIndex == 5 && revealDone){
+                        engine.window.setBackground("src/images/factorydoor_open.jpg"); 
+                        System.out.println("granted");
+                    } 
+                    
                     showContinueButton(engine);
                 } else {
                     if (!wireSolved) {
@@ -40,7 +66,6 @@ class SecurityScene extends Scene {
                         revealDone = true;
                         goToPasswordReveal(engine);
                     } else {
-                        
                         List<String[]> cont = new ArrayList<>();
                         cont.add(new String[]{"Continue →", "continue_to_storage"});
                         engine.window.setChoices(cont);
@@ -51,7 +76,7 @@ class SecurityScene extends Scene {
             case "wire_solved":
                 wireSolved = true;
                 engine.state.securityWirePuzzleDone = true;
-                engine.window.setBackground("src/images/robotface.jpg");
+                engine.window.setBackground("src/images/terminal1.jpg");
 
                 // Show the jumbled password as a reward
                 String jumbled = GameMechanics.shuffleString(engine.state.correctPassword);
@@ -107,9 +132,9 @@ class SecurityScene extends Scene {
     }
 
     private void goToPasswordReveal(GameEngine engine) {
+        engine.window.setBackground("");
         loadTextQueue(
                 engine.dm.getDialogue("hallway_factory"),
-                engine.dm.getDialogue("hallway_factory2"),
                 engine.dm.getDialogue("hallway_factory3"),
                 engine.dm.getDialogue("hallway_factory4")
         );

@@ -153,6 +153,12 @@ public class GameWindow extends JFrame {
 
     public void setBackground(String imagePath) {
         SwingUtilities.invokeLater(() -> {
+            if(imagePath == ""){
+                backgroundImage.setIcon(null);
+                backgroundImage.setBackground(Color.BLACK);
+                backgroundImage.setOpaque(true);
+                return;
+            }
             java.io.File f = new java.io.File(imagePath);
             System.out.println("Loading image: " + f.getAbsolutePath()
                     + " | exists: " + f.exists()); // check this output
@@ -242,6 +248,9 @@ public class GameWindow extends JFrame {
     public void hideFullScreenPanel() {
         SwingUtilities.invokeLater(() -> {
             if (fullScreenPanel != null) {
+                if(fullScreenPanel instanceof WirePanel){
+                    ((WirePanel) fullScreenPanel).stop();
+                }
                 layeredPane.remove(fullScreenPanel);
                 fullScreenPanel = null;
                 layeredPane.revalidate();
@@ -277,7 +286,7 @@ public class GameWindow extends JFrame {
 
     public void showTitleScreen(GameEngine engine) {
         //applyWindowFade();
-        setBackground("src/images/outside1.jpg");
+        setBackground("src/images/title1.jpg");
         dialogueOverlay.setVisible(false); // hide the dialogue box
 
         JButton startBtn = new JButton("▶  Start Game");
@@ -295,7 +304,7 @@ public class GameWindow extends JFrame {
         startBtn.setBounds(300, 400, 200, 50);
     }
 
-    private void applyWindowFade() {
+    private void applyWindowFade() { 
         this.setOpacity(0.0f);
         Timer timer = new Timer(30, new ActionListener() {
             float opacity = 0.0f;
