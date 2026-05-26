@@ -19,6 +19,7 @@ import java.awt.Insets;
 import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -48,6 +49,9 @@ public class GameWindow extends JFrame {
     private JLabel healthLabel;
     private GameEngine engine;
     private boolean inputActive = false;
+    private JButton titleStartBtn;
+    private JButton titleLeaderboardBtn;
+    private JButton titleQuitBtn;
 
     public GameWindow(GameEngine engine) {
         this.engine = engine;
@@ -56,11 +60,11 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        
-        addKeyListener(new java.awt.event.KeyAdapter(){
+
+        addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
-            public void keyPressed(java.awt.event.KeyEvent e){
-                if(e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && !inputActive){
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && !inputActive) {
                     engine.handleChoice("continue");
                 }
             }
@@ -93,10 +97,10 @@ public class GameWindow extends JFrame {
         buildBackgroundLayer();
         buildDialogueOverlay();
     }
-    
-    public void setInputActive(boolean active){
+
+    public void setInputActive(boolean active) {
         this.inputActive = active;
-        if(!active){
+        if (!active) {
             requestFocusInWindow();
         }
     }
@@ -153,7 +157,7 @@ public class GameWindow extends JFrame {
 
     public void setBackground(String imagePath) {
         SwingUtilities.invokeLater(() -> {
-            if(imagePath == ""){
+            if (imagePath == "") {
                 backgroundImage.setIcon(null);
                 backgroundImage.setBackground(Color.BLACK);
                 backgroundImage.setOpaque(true);
@@ -248,7 +252,7 @@ public class GameWindow extends JFrame {
     public void hideFullScreenPanel() {
         SwingUtilities.invokeLater(() -> {
             if (fullScreenPanel != null) {
-                if(fullScreenPanel instanceof WirePanel){
+                if (fullScreenPanel instanceof WirePanel) {
                     ((WirePanel) fullScreenPanel).stop();
                 }
                 layeredPane.remove(fullScreenPanel);
@@ -289,22 +293,65 @@ public class GameWindow extends JFrame {
         setBackground("src/images/title1.jpg");
         dialogueOverlay.setVisible(false); // hide the dialogue box
 
-        JButton startBtn = new JButton("▶  Start Game");
-        // style it, position it centered on screen
-        startBtn.addActionListener(e -> {
+        // start button
+        titleStartBtn = new JButton("▶  Start Game");
+        styleButton(titleStartBtn);
+        titleStartBtn.addActionListener(e -> {
+            removeTitleButtons();
             dialogueOverlay.setVisible(true); // bring back dialogue box
-            layeredPane.remove(startBtn);
-            layeredPane.revalidate();
-            layeredPane.repaint();
             engine.setScene(new IntroScene());
         });
+        
+        // leaderboard button 
+        titleLeaderboardBtn = new JButton("Leaderboard");
+        styleButton(titleLeaderboardBtn);
+        titleLeaderboardBtn.addActionListener(e -> {
+            removeTitleButtons();
+            showLeaderboard(engine);
+        });       
+        
+        // quit button 
+        titleQuitBtn = new JButton("Quit");
+        styleButton(titleQuitBtn);
+        titleQuitBtn.addActionListener(e -> {
+            engine.quit();
+        });
 
-        layeredPane.add(startBtn, JLayeredPane.MODAL_LAYER);
-        // position it centered
-        startBtn.setBounds(300, 400, 200, 50);
+        // Position buttons centered
+        int btnW = 200;
+        int btnH = 45;
+        int centerX = (getWidth() - btnW) / 2;
+
+        titleStartBtn.setBounds(centerX, 380, btnW, btnH);
+        titleLeaderboardBtn.setBounds(centerX, 435, btnW, btnH);
+        titleQuitBtn.setBounds(centerX, 490, btnW, btnH);
+
+        layeredPane.add(titleStartBtn, JLayeredPane.MODAL_LAYER);
+        layeredPane.add(titleLeaderboardBtn, JLayeredPane.MODAL_LAYER);
+        layeredPane.add(titleQuitBtn, JLayeredPane.MODAL_LAYER);
+
+        layeredPane.revalidate();
+        layeredPane.repaint();
     }
 
-    private void applyWindowFade() { 
+    private void removeTitleButtons() {
+        if (titleStartBtn != null) {
+            layeredPane.remove(titleStartBtn);
+        }
+        if (titleLeaderboardBtn != null) {
+            layeredPane.remove(titleLeaderboardBtn);
+        }
+        if (titleQuitBtn != null) {
+            layeredPane.remove(titleQuitBtn);
+        }
+        titleStartBtn = null;
+        titleLeaderboardBtn = null;
+        titleQuitBtn = null;
+        layeredPane.revalidate();
+        layeredPane.repaint();
+    }
+
+    private void applyWindowFade() {
         this.setOpacity(0.0f);
         Timer timer = new Timer(30, new ActionListener() {
             float opacity = 0.0f;
@@ -328,6 +375,73 @@ public class GameWindow extends JFrame {
             choicesPanel.removeAll();
             choicesPanel.revalidate();
             choicesPanel.repaint();
+        });
+    }
+
+    private void showLeaderboard(GameEngine engine) {
+        StringBuilder sb = new StringBuilder("TOP SCORES\n\n");
+        try {
+            var sessions = engine.sessionDAO.getLeaderboard();
+            if (sessions.isEmpty()) {
+                sb.append("No scores yet. Complete the game to appear here!");
+            } else {
+                int rank = 1;
+                for (var s : sessions) {
+                    sb.append(rank++).append(". ")
+                            .append(s.playerName).append("  |  ")
+                            .append("HP: ").append(s.healthRemaining).append("  |  ")
+                            .append("Deaths: ").append(s.deathCount).append("  |  ")
+                            .append(s.endingChosen).append("\n");
+                }
+            }
+        } catch (Exception e) {
+            sb.append("Could not load scores.");
+            System.out.println("score loading error: " + e.getMessage());
+        }
+
+        dialogueOverlay.setVisible(true);
+        showText(sb.toString());
+
+        // back button
+        List<String[]> back = new ArrayList<>();
+        back.add(new String[]{"Back", "back_to_title"});
+        setChoices(back);
+
+        engine.setScene(new Scene() {
+            @Override
+            public void buildUI(GameEngine e) {}
+
+            @Override
+            public void onChoice(GameEngine e, String key) {
+                if (key.equals("back_to_title")) {
+                    dialogueOverlay.setVisible(false);
+                    clearChoices();
+                    showText("");
+                    showTitleScreen(engine);
+                }
+            }
+        });
+    }
+
+    private void styleButton(JButton btn) {
+        btn.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        btn.setForeground(Color.WHITE);
+        btn.setBackground(new Color(0, 0, 0, 160));
+        btn.setOpaque(true);
+        btn.setFocusPainted(false);
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(255, 255, 255, 60), 1),
+                BorderFactory.createEmptyBorder(7, 12, 7, 12)
+        ));
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                btn.setBackground(new Color(255, 255, 255, 40));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                btn.setBackground(new Color(0, 0, 0, 160));
+            }
         });
     }
 }

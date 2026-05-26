@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue May 26 14:51:27 NZST 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-019e-6231-bbe5-00000ed0a3a0 
+on database directory /Users/willpurdon/Desktop/PDC_assignment/COMP603_Will_Archy/GameDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@6d5380c2 
+Loaded from file:/Users/willpurdon/Desktop/derby.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=25.0.1+8-LTS
+user.dir=/Users/willpurdon/Desktop/PDC_assignment/COMP603_Will_Archy
+os.name=Mac OS X
+os.arch=x86_64
+os.version=26.5
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

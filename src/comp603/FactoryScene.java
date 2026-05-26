@@ -63,11 +63,11 @@ class FactoryScene extends Scene {
                                 engine.window.setBackground("src/images/sync_save1.jpg");
                                 break;
                         }
-                    } else{
+                    } else {
                         // abandon
                         System.out.println("abandon");
                         switch (queueIndex) {
-                            
+
                             case 2:
                                 engine.window.setBackground("src/images/sync_reachout.jpg");
                                 break;
@@ -135,6 +135,12 @@ class FactoryScene extends Scene {
                 nextLine(engine);
                 showContinueButton(engine);
                 break;
+
+            case "title":
+                engine.player = new Player();
+                engine.state.reset();
+                engine.window.showTitleScreen(engine);
+                break;
         }
 
     }
@@ -153,11 +159,15 @@ class FactoryScene extends Scene {
     }
 
     private void showCredits(GameEngine engine) {
+        engine.completeGame(choseSave ? "SAVE" : "ABANDON");
         engine.window.setBackground("src/images/credits.jpg");
         engine.window.showText(
                 engine.dm.getDialogue("the_end") + "\n\n"
                 + "Thank you for playing, " + engine.player.name + "."
         );
-        engine.window.setChoices(new ArrayList<>());
+
+        List<String[]> choices = new ArrayList<>();
+        choices.add(new String[]{"Back to title", "title"});
+        engine.window.setChoices(choices);
     }
 }
