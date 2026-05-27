@@ -52,6 +52,7 @@ public class GameWindow extends JFrame {
     private JButton titleStartBtn;
     private JButton titleLeaderboardBtn;
     private JButton titleQuitBtn;
+    private boolean dialogueExpanded = false;
 
     public GameWindow(GameEngine engine) {
         this.engine = engine;
@@ -81,15 +82,23 @@ public class GameWindow extends JFrame {
                 // Background fills entire window
                 backgroundImage.setBounds(0, 0, w, h);
 
-                // Dialogue overlay pinned to bottom
-                int overlayHeight = (int) (h * 0.25); // dialogue box percentage
                 int margin = 20;
-                dialogueOverlay.setBounds(
-                        margin, // x (left margin)
-                        h - overlayHeight - margin, // y (pushed to bottom)
-                        w - (margin * 2), // width (full width minus margins)
-                        overlayHeight // height
-                );
+                if (dialogueExpanded) {
+                    dialogueOverlay.setBounds(
+                            margin,
+                            margin,
+                            w - (margin * 2),
+                            h - (margin * 2)
+                    );
+                } else {
+                    int overlayHeight = (int) (h * 0.25);
+                    dialogueOverlay.setBounds(
+                            margin,
+                            h - overlayHeight - margin,
+                            w - (margin * 2),
+                            overlayHeight
+                    );
+                }
             }
         };
         setContentPane(layeredPane);
@@ -301,15 +310,15 @@ public class GameWindow extends JFrame {
             dialogueOverlay.setVisible(true); // bring back dialogue box
             engine.setScene(new IntroScene());
         });
-        
+
         // leaderboard button 
         titleLeaderboardBtn = new JButton("Leaderboard");
         styleButton(titleLeaderboardBtn);
         titleLeaderboardBtn.addActionListener(e -> {
             removeTitleButtons();
             showLeaderboard(engine);
-        });       
-        
+        });
+
         // quit button 
         titleQuitBtn = new JButton("Quit");
         styleButton(titleQuitBtn);
@@ -400,6 +409,7 @@ public class GameWindow extends JFrame {
         }
 
         dialogueOverlay.setVisible(true);
+        expandDialogue();
         showText(sb.toString());
 
         // back button
@@ -409,11 +419,13 @@ public class GameWindow extends JFrame {
 
         engine.setScene(new Scene() {
             @Override
-            public void buildUI(GameEngine e) {}
+            public void buildUI(GameEngine e) {
+            }
 
             @Override
             public void onChoice(GameEngine e, String key) {
                 if (key.equals("back_to_title")) {
+                    resetDialogue();
                     dialogueOverlay.setVisible(false);
                     clearChoices();
                     showText("");
@@ -443,5 +455,17 @@ public class GameWindow extends JFrame {
                 btn.setBackground(new Color(0, 0, 0, 160));
             }
         });
+    }
+
+    public void expandDialogue() {
+        dialogueExpanded = true;
+        layeredPane.revalidate();
+        layeredPane.repaint();
+    }
+
+    public void resetDialogue() {
+        dialogueExpanded = false;
+        layeredPane.revalidate();
+        layeredPane.repaint();
     }
 }

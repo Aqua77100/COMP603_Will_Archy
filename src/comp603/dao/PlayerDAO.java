@@ -55,4 +55,18 @@ public class PlayerDAO {
         }
         return list;
     }
+
+    public int findPlayerName(String name) {
+        String sql = "SELECT id FROM players WHERE name = ?";
+        try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id"); // found existing player
+            }
+        } catch (SQLException e) {
+            System.out.println("findPlayerByName error: " + e.getMessage());
+        }
+        return -1; // not found
+    }
 }
