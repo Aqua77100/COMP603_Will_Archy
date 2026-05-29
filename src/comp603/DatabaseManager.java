@@ -69,6 +69,16 @@ public class DatabaseManager {
                     )
                 """);
             }
+
+            if (!tableExists("DIALOGUE")) {
+                stmt.execute(
+                        "CREATE TABLE dialogue ("
+                        + "key_name VARCHAR(100) PRIMARY KEY, "
+                        + "value VARCHAR(2000) NOT NULL"
+                        + ")"
+                );
+                System.out.println("dialogue table created lowk");
+            }
             System.out.println("Tables ready");
         } catch (SQLException e) {
             System.out.println("Table creation error: " + e.getMessage());

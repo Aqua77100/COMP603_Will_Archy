@@ -2,6 +2,7 @@ package comp603;
 
 import comp603.dao.PlayerDAO;
 import comp603.dao.DeathLogDAO;
+import comp603.dao.DialogueDAO;
 import comp603.dao.SessionDAO;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -24,6 +25,7 @@ public class GameEngine {
     public PlayerDAO playerDAO;
     public SessionDAO sessionDAO;
     public DeathLogDAO deathLogDAO;
+    public DialogueDAO dialogueDAO;
 
     // session tracking
     public int currentPlayerId = -1;
@@ -35,8 +37,11 @@ public class GameEngine {
         playerDAO = new PlayerDAO(db);
         sessionDAO = new SessionDAO(db);
         deathLogDAO = new DeathLogDAO(db);
+        dialogueDAO = new DialogueDAO(db);
+        
+        dialogueDAO.seedFromFile("dialogue.txt");
+        dm.loadFromDatabase(dialogueDAO);
 
-        dm.loadFile("dialogue.txt");
         window.showTitleScreen(this);
 
         // for testing
