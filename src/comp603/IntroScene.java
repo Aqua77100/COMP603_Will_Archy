@@ -21,15 +21,16 @@ import javax.swing.SwingUtilities;
  * @author willpurdon
  */
 public class IntroScene extends Scene {
+
     @Override
     public void buildUI(GameEngine engine) {
         engine.window.setBackground("src/images/outside1.jpg");
         loadTextQueue(
-            engine.dm.getDialogue("intro1"),
-            engine.dm.getDialogue("intro2"),
-            engine.dm.getDialogue("intro3"),
-            engine.dm.getDialogue("intro4"),
-            engine.dm.getDialogue("intro5")
+                engine.dm.getDialogue("intro1"),
+                engine.dm.getDialogue("intro2"),
+                engine.dm.getDialogue("intro3"),
+                engine.dm.getDialogue("intro4"),
+                engine.dm.getDialogue("intro5")
         );
         nextLine(engine);
         showContinueButton(engine);
@@ -42,8 +43,8 @@ public class IntroScene extends Scene {
             case "continue":
                 if (queueIndex < textQueue.size()) {
                     nextLine(engine);
-                    
-                    switch(queueIndex){
+
+                    switch (queueIndex) {
                         case 3:
                             engine.window.setBackground("src/images/sighting1.jpg");
                             break;
@@ -54,7 +55,7 @@ public class IntroScene extends Scene {
                             engine.window.setBackground("src/images/buildingdoor.jpg");
                             break;
                     }
-                    
+
                     showContinueButton(engine);
                 } else {
                     // Queue exhausted — show name input
@@ -66,6 +67,7 @@ public class IntroScene extends Scene {
                 break;
 
             case "next_scene":
+                engine.window.setInputActive(false);
                 engine.setScene(new HallwayScene());
                 break;
         }
@@ -85,8 +87,8 @@ public class IntroScene extends Scene {
         nameField.setCaretColor(Color.WHITE);
         nameField.setPreferredSize(new Dimension(300, 40));
         nameField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(80, 80, 80), 1),
-            BorderFactory.createEmptyBorder(6, 10, 6, 10)
+                BorderFactory.createLineBorder(new Color(80, 80, 80), 1),
+                BorderFactory.createEmptyBorder(6, 10, 6, 10)
         ));
 
         JButton submitBtn = new JButton("Confirm");
@@ -96,9 +98,18 @@ public class IntroScene extends Scene {
         submitBtn.setFocusPainted(false);
         submitBtn.setPreferredSize(new Dimension(110, 40));
         submitBtn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(80, 80, 80), 1),
-            BorderFactory.createEmptyBorder(6, 14, 6, 14)
+                BorderFactory.createLineBorder(new Color(80, 80, 80), 1),
+                BorderFactory.createEmptyBorder(6, 14, 6, 14)
         ));
+
+        nameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    e.consume(); // stops Enter bubbling up to GameWindow
+                }
+            }
+        });
 
         Runnable submit = () -> {
             String name = nameField.getText().trim();
@@ -114,7 +125,6 @@ public class IntroScene extends Scene {
             engine.window.showText("Welcome, " + engine.player.name + ".");
             engine.window.updateHealth();
 
-            // Short delay then move to hallway
             List<String[]> cont = new ArrayList<>();
             cont.add(new String[]{"Continue →", "next_scene"});
             engine.window.setChoices(cont);

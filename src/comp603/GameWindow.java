@@ -388,7 +388,7 @@ public class GameWindow extends JFrame {
     }
 
     private void showLeaderboard(GameEngine engine) {
-        StringBuilder sb = new StringBuilder("TOP SCORES\n\n");
+        StringBuilder sb = new StringBuilder("── TOP SCORES ──\n\n");
         try {
             var sessions = engine.sessionDAO.getLeaderboard();
             if (sessions.isEmpty()) {
@@ -396,11 +396,22 @@ public class GameWindow extends JFrame {
             } else {
                 int rank = 1;
                 for (var s : sessions) {
-                    sb.append(rank++).append(". ")
-                            .append(s.playerName).append("  |  ")
-                            .append("HP: ").append(s.healthRemaining).append("  |  ")
-                            .append("Deaths: ").append(s.deathCount).append("  |  ")
-                            .append(s.endingChosen).append("\n");
+                    // Calculate time taken
+                    String time = "N/A";
+                    if (s.startTime != null && s.endTime != null) {
+                        long millis = s.endTime.getTime() - s.startTime.getTime();
+                        long minutes = millis / 60000;
+                        long seconds = (millis % 60000) / 1000;
+                        time = minutes + "m " + seconds + "s";
+                    }
+
+                    sb.append(rank++).append(". ").append(s.playerName).append("\n")
+                            .append("   Score: ").append(s.score)
+                            .append("  |  HP: ").append(s.healthRemaining)
+                            .append("  |  Deaths: ").append(s.deathCount)
+                            .append("  |  ").append(s.endingChosen)
+                            .append("  |  Time: ").append(time)
+                            .append("\n\n");
                 }
             }
         } catch (Exception e) {
@@ -412,7 +423,6 @@ public class GameWindow extends JFrame {
         expandDialogue();
         showText(sb.toString());
 
-        // back button
         List<String[]> back = new ArrayList<>();
         back.add(new String[]{"Back", "back_to_title"});
         setChoices(back);

@@ -51,6 +51,8 @@ public class GameEngine {
 
     public void registerPlayer(String name) {
         int existingId = playerDAO.findPlayerName(name);
+        System.out.println("findPlayerByName('" + name + "') returned: " + existingId);
+        
         if (existingId != -1) {
             // returning player (reuse their ID)
             currentPlayerId = existingId;

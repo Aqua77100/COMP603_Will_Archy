@@ -107,7 +107,7 @@ class SecurityScene extends Scene {
 
     private void showWirePuzzle(GameEngine engine) {
         engine.window.clearChoices();
-        engine.window.setBackground("src/images/wiregame1.jpg");
+        engine.window.setBackground("src/images/wiregame2.jpg");
         engine.window.showText(engine.player.name + ": I only have one shot to connect these correctly.");
 
         WirePanel wires = new WirePanel(

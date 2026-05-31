@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class WirePanel extends JPanel {
 
-    // ── Data ────────────────────────────────────────────────────────────────
+    // Data
     private static final int PLUG_RADIUS = 10;
 
     // Wire plugs on the left (source)
@@ -43,7 +43,7 @@ public class WirePanel extends JPanel {
     private int timeLeft = 60; // time to solve puzzle
     private boolean puzzleComplete = false;
 
-    // ────────────────────────────────────────────────────────────────────────
+   
     public WirePanel(Runnable onSolved, Runnable onFailed) {
         this.onSolved = onSolved;
         this.onFailed = onFailed;
@@ -108,7 +108,7 @@ public class WirePanel extends JPanel {
         startCountdown();
     }
 
-    // ── Drawing ──────────────────────────────────────────────────────────────
+    // Drawing
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -129,7 +129,7 @@ public class WirePanel extends JPanel {
             portPoints[i]    = new Point(panelW - 80,    rowH * (i + 1));
         }
 
-        // ── Draw completed connections ───────────────────────────────────────
+        // Draw completed connections
         g2.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         for (int i = 0; i < connections.length; i++) {
             if (connections[i] != -1) {
@@ -140,7 +140,7 @@ public class WirePanel extends JPanel {
             }
         }
 
-        // ── Draw active drag line ────────────────────────────────────────────
+        // Draw active drag line 
         if (draggingWire != -1 && dragPoint != null) {
             g2.setColor(wireColors[draggingWire]);
             g2.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND,
@@ -148,7 +148,7 @@ public class WirePanel extends JPanel {
             drawCurvedWire(g2, wirePluPoints[draggingWire], dragPoint);
         }
 
-        // ── Draw wire plugs (left) ───────────────────────────────────────────
+        // Draw wire plugs (left) 
         g2.setStroke(new BasicStroke(2));
         for (int i = 0; i < rows; i++) {
             Point p = wirePluPoints[i];
@@ -167,7 +167,7 @@ public class WirePanel extends JPanel {
                         PLUG_RADIUS * 2, PLUG_RADIUS * 2);
         }
 
-        // ── Draw ports (right) ───────────────────────────────────────────────
+        // Draw ports (right) 
         for (int i = 0; i < rows; i++) {
             Point p = portPoints[i];
 
@@ -218,7 +218,7 @@ public class WirePanel extends JPanel {
         ));
     }
 
-    // ── Solution check ───────────────────────────────────────────────────────
+    //solution check 
     private void checkSolution() {
         // Check all wires are connected
         for (int c : connections) {

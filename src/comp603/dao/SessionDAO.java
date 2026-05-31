@@ -80,16 +80,25 @@ public class SessionDAO {
         List<SessionRecord> list = new ArrayList<>();
         String sql
                 = "SELECT p.name as player_name, "
-                + "MAX(gs.health_remaining) as health_remaining, "
-                + "MIN(gs.death_count) as death_count, "
-                + "gs.ending_chosen "
+                + "gs.health_remaining, gs.death_count, gs.ending_chosen, "
+                + "gs.start_time, gs.end_time, "
+                + // Score formula: HP worth most, deaths penalise, faster time is better
+                "(gs.health_remaining * 100) "
+                + "- (gs.death_count * 30) "
+                + "- ({fn TIMESTAMPDIFF(SQL_TSI_MINUTE, gs.start_time, gs.end_time)} * 2) "
+                + "as score "
                 + "FROM game_sessions gs "
                 + "JOIN players p ON gs.player_id = p.id "
                 + "WHERE gs.completed = 1 "
                 + "AND gs.health_remaining IS NOT NULL "
                 + "AND gs.ending_chosen IS NOT NULL "
-                + "GROUP BY p.name, gs.ending_chosen "
-                + "ORDER BY health_remaining DESC, death_count ASC "
+                + "AND gs.health_remaining = ("
+                + "    SELECT MAX(gs2.health_remaining) "
+                + "    FROM game_sessions gs2 "
+                + "    WHERE gs2.player_id = gs.player_id "
+                + "    AND gs2.completed = 1"
+                + ") "
+                + "ORDER BY score DESC "
                 + "FETCH FIRST 10 ROWS ONLY";
         try (Statement stmt = db.getConnection().createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
@@ -99,7 +108,9 @@ public class SessionDAO {
                         rs.getInt("health_remaining"),
                         rs.getInt("death_count"),
                         rs.getString("ending_chosen"),
-                        null
+                        rs.getTimestamp("start_time"),
+                        rs.getTimestamp("end_time"),
+                        rs.getInt("score")
                 ));
             }
         } catch (SQLException e) {

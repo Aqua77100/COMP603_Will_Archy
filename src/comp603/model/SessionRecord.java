@@ -16,15 +16,19 @@ public class SessionRecord {
     public int healthRemaining;
     public int deathCount;
     public String endingChosen;
+    public Timestamp startTime;
     public Timestamp endTime;
+    public int score;
 
     public SessionRecord(int id, String playerName, int healthRemaining,
-                         int deathCount, String endingChosen, Timestamp endTime) {
+                         int deathCount, String endingChosen, Timestamp startTime, Timestamp endTime, int score) {
         this.id = id;
         this.playerName = playerName;
         this.healthRemaining = healthRemaining;
         this.deathCount = deathCount;
         this.endingChosen = endingChosen;
+        this.startTime = startTime;
         this.endTime = endTime;
+        this.score = score;
     }
 }

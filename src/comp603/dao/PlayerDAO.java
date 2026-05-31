@@ -57,7 +57,7 @@ public class PlayerDAO {
     }
 
     public int findPlayerName(String name) {
-        String sql = "SELECT id FROM players WHERE name = ?";
+        String sql = "SELECT id FROM players WHERE UPPER(name) = UPPER(?)";
         try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
