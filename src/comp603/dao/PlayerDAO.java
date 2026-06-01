@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author willpurdon
  */
-public class PlayerDAO {
+public class PlayerDAO implements IPlayerDAO {
 
     private final DatabaseManager db;
 

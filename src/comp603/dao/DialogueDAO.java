@@ -13,7 +13,7 @@ import java.util.*;
  *
  * @author willpurdon
  */
-public class DialogueDAO {
+public class DialogueDAO implements IDialogueDAO {
     private final DatabaseManager db;
     
     public DialogueDAO(DatabaseManager db){

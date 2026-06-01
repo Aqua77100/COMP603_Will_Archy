@@ -11,7 +11,7 @@ import java.sql.*;
  *
  * @author willpurdon
  */
-public class DeathLogDAO {
+public class DeathLogDAO implements IDeathLogDAO {
     private final DatabaseManager db;
     
     public DeathLogDAO(DatabaseManager db){

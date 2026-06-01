@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
 
-public class WirePanel extends JPanel {
+public class WirePanel extends JPanel implements Stoppable {
 
     // Data
     private static final int PLUG_RADIUS = 10;
@@ -270,6 +270,7 @@ public class WirePanel extends JPanel {
         countdownTimer.start();
     }
     
+    @Override
     public void stop(){
         if(countdownTimer != null){
             countdownTimer.stop();

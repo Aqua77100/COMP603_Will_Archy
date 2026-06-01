@@ -51,7 +51,7 @@ class HallwayScene extends Scene {
                         List<String[]> choices = new ArrayList<>();
                         choices.add(new String[]{"A) Crawl under the laser", "a"});
                         choices.add(new String[]{"B) Sprint through the gap", "b"});
-                        choices.add(new String[]{"C) Walk straight through", "c"});
+                        choices.add(new String[]{"C) Turn back", "c"});
                         engine.window.setChoices(choices);
                     }
                 }

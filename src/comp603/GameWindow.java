@@ -91,7 +91,7 @@ public class GameWindow extends JFrame {
                             h - (margin * 2)
                     );
                 } else {
-                    int overlayHeight = (int) (h * 0.25);
+                    int overlayHeight = (int) (h * 0.28); // dialogue box height
                     dialogueOverlay.setBounds(
                             margin,
                             h - overlayHeight - margin,
@@ -261,8 +261,8 @@ public class GameWindow extends JFrame {
     public void hideFullScreenPanel() {
         SwingUtilities.invokeLater(() -> {
             if (fullScreenPanel != null) {
-                if (fullScreenPanel instanceof WirePanel) {
-                    ((WirePanel) fullScreenPanel).stop();
+                if (fullScreenPanel instanceof Stoppable) {
+                    ((Stoppable) fullScreenPanel).stop();
                 }
                 layeredPane.remove(fullScreenPanel);
                 fullScreenPanel = null;
@@ -388,6 +388,7 @@ public class GameWindow extends JFrame {
     }
 
     private void showLeaderboard(GameEngine engine) {
+        hideHUD();
         StringBuilder sb = new StringBuilder("TOP SCORES\n\n");
         try {
             var sessions = engine.sessionDAO.getLeaderboard();
@@ -425,6 +426,7 @@ public class GameWindow extends JFrame {
             @Override
             public void onChoice(GameEngine e, String key) {
                 if (key.equals("back_to_title")) {
+                    showHUD();
                     resetDialogue();
                     dialogueOverlay.setVisible(false);
                     clearChoices();
@@ -468,4 +470,16 @@ public class GameWindow extends JFrame {
         layeredPane.revalidate();
         layeredPane.repaint();
     }
+    
+    public void hideHUD(){
+        SwingUtilities.invokeLater(() -> {
+            healthLabel.setVisible(false);
+        });
+    }
+    
+    public void showHUD() {
+    SwingUtilities.invokeLater(() -> {
+        healthLabel.setVisible(true);
+    });
+}
 }

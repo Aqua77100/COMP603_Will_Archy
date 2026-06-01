@@ -3,6 +3,10 @@ package comp603;
 import comp603.dao.PlayerDAO;
 import comp603.dao.DeathLogDAO;
 import comp603.dao.DialogueDAO;
+import comp603.dao.IDeathLogDAO;
+import comp603.dao.IDialogueDAO;
+import comp603.dao.IPlayerDAO;
+import comp603.dao.ISessionDAO;
 import comp603.dao.SessionDAO;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -22,10 +26,10 @@ public class GameEngine {
 
     // database layer
     public DatabaseManager db = new DatabaseManager();
-    public PlayerDAO playerDAO;
-    public SessionDAO sessionDAO;
-    public DeathLogDAO deathLogDAO;
-    public DialogueDAO dialogueDAO;
+    public IPlayerDAO playerDAO;
+    public ISessionDAO sessionDAO;
+    public IDeathLogDAO deathLogDAO;
+    public IDialogueDAO dialogueDAO;
 
     // session tracking
     public int currentPlayerId = -1;

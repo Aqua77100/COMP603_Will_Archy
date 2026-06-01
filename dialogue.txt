@@ -17,7 +17,7 @@ hallway_intro=I enter the dimly lit hallway, releasing a sigh of relief as I see
 hallway_intro_d1="Gosh, what was I even worried about?"
 hallway_intro_d2=A system suddenly starts booting, red lasers sweep the floor.\nGuess I take that back.
 hallway_choice=A laser is coming my way, what do I do?
-hallway_fail=With the swift motion of your heels, you turn, only to be met by a locked door and a burning sensation on your back.\nThe laser politely stops at the door before passing through you once more. Everything goes black.
+hallway_fail=With the swift motion of your heels, you turn, only to be met by a locked door and a burning sensation on your back.\nEverything goes black.
 hallway_factory=I walk through the hallway on edge.\nThe security robot powering down has disabled the laser security system luckily.
 hallway_factory3=I arrive back in the hallway and see the door I must get through.\nThe factory door.
 hallway_factory4=I approach the terminal which asks me for a password.\nThe one the security robot gave me... well sort of..
@@ -48,7 +48,7 @@ wires_complete2=The robot starts to glitch. As it begins to break down, the robo
 # Factory
 factory_prompt=Enter the factory password:
 factory_hint=I hit the screen in anger. A small paper falls from behind the screen. It reads: 'Common starting for a joke and an action you can do.'
-factory_hint2=Common joke beginning and an action... There's a lot of 'K's.
+factory_hint2=Hint: Common joke beginning and an action... There's a lot of 'K's.
 factory_enter=Before me stands a bot unlike any other.\nIts face is torn and its limbs that appear to be made of other robots parts flail about out of control.
 factory_enter2=The door locks behind me.\nA mechanical clicking floods my ears.\nWe lock eyes.
 factory_boss1=???: "You're back! Or are you? Who are you? I don't care! Come play! D-Do you know how to play Hangman?"

@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class HangmanPanel extends JPanel {
+public class HangmanPanel extends JPanel implements Stoppable {
 
     private final String word;
     private final Set<Character> guesses = new HashSet<>();
@@ -308,5 +308,10 @@ public class HangmanPanel extends JPanel {
                 g2.drawLine(headCX + 8, headCY - 5, headCX + 4, headCY - 1);
             }
         }
+    }
+    
+    @Override
+    public void stop() {
+        puzzleComplete = true;
     }
 }

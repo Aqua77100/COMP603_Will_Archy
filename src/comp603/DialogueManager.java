@@ -5,6 +5,7 @@ package comp603;
  * @author archy
  */
 import comp603.dao.DialogueDAO;
+import comp603.dao.IDialogueDAO;
 import java.io.*;
 import java.util.*;
 
@@ -12,7 +13,7 @@ public class DialogueManager {
 
     // Create HashMap for the dialogue text
     private Map<String, String> dialogueData = new HashMap<>();
-    private DialogueDAO dialogueDAO;
+    private IDialogueDAO dialogueDAO;
 
     public void loadFile(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) { // Reads from the file in GameEngine (dialogue.txt)
@@ -29,7 +30,7 @@ public class DialogueManager {
         }
     }
     
-    public void loadFromDatabase(DialogueDAO dao){
+    public void loadFromDatabase(IDialogueDAO dao){
         this.dialogueDAO = dao;
         dialogueData = dao.loadAll(); // load everything into memory at startup 
         System.out.println("Dialogue loaded from db");

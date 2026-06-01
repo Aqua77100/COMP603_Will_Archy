@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author willpurdon
  */
-public class SessionDAO {
+public class SessionDAO implements ISessionDAO {
 
     private final DatabaseManager db;
 
