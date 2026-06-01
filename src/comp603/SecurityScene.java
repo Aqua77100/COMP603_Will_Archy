@@ -11,7 +11,7 @@ class SecurityScene extends Scene {
 
     @Override
     public void buildUI(GameEngine engine) {
-        engine.window.setBackground("src/images/security1.jpg");
+        engine.window.setBackground("src/images/security3.jpg");
 
         loadTextQueue(
                 engine.dm.getDialogue("security_intro"),

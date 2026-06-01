@@ -202,14 +202,14 @@ class StorageScene extends Scene {
                     "I enter the factory..."
             );
             nextLine(engine);
-            showContinueButton(engine); // "continue" key → queue plays out → FactoryScene
+            showContinueButton(engine); // "continue" key -> queue plays out -> FactoryScene
         } else {
             engine.state.passwordAttempts++;
             String hint = "";
             if (engine.state.passwordAttempts == 3) {
-                hint = "\n\n" + engine.dm.getDialogue("factory_hint");
+                hint = "\n" + engine.dm.getDialogue("factory_hint");
             } else if (engine.state.passwordAttempts > 3) {
-                hint = "\n\n" + engine.dm.getDialogue("factory_hint2");
+                hint = "\n" + engine.dm.getDialogue("factory_hint2");
             }
             engine.window.showText("ACCESS DENIED." + hint);
             passField.setText("");

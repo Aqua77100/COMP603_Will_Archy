@@ -47,7 +47,7 @@ wires_complete2=The robot starts to glitch. As it begins to break down, the robo
 
 # Factory
 factory_prompt=Enter the factory password:
-factory_hint=I hit the screen in anger. I'm gonna destroy this factory, man...\nA small paper falls from behind the screen.\nIt reads: 'Common starting for a joke and an action you can do.'
+factory_hint=I hit the screen in anger. A small paper falls from behind the screen. It reads: 'Common starting for a joke and an action you can do.'
 factory_hint2=Common joke beginning and an action... There's a lot of 'K's.
 factory_enter=Before me stands a bot unlike any other.\nIts face is torn and its limbs that appear to be made of other robots parts flail about out of control.
 factory_enter2=The door locks behind me.\nA mechanical clicking floods my ears.\nWe lock eyes.
