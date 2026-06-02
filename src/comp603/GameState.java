@@ -17,6 +17,5 @@ class GameState {
         laserActive = true;
         securityWirePuzzleDone = false;
         passwordAttempts = 0;
-        GameUI.clearScreen();
     }
 }

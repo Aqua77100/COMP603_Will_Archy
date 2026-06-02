@@ -82,12 +82,13 @@ public class SessionDAO implements ISessionDAO {
                 = "SELECT p.name as player_name, "
                 + "gs.health_remaining, gs.death_count, gs.ending_chosen, "
                 + "gs.start_time, gs.end_time, "
-                + // Score formula: HP worth most, deaths penalise, faster time is better
-                "(gs.health_remaining * 100) "
+                + "(gs.health_remaining * 100) "
                 + "- (gs.death_count * 30) "
                 + "- ({fn TIMESTAMPDIFF(SQL_TSI_MINUTE, gs.start_time, gs.end_time)} * 2) "
-                + "as score "
-                + "FROM game_sessions gs "
+                + "as score, "
+                + "{fn TIMESTAMPDIFF(SQL_TSI_SECOND, gs.start_time, gs.end_time)} as time_taken "
+                + // named column
+                "FROM game_sessions gs "
                 + "JOIN players p ON gs.player_id = p.id "
                 + "WHERE gs.completed = 1 "
                 + "AND gs.health_remaining IS NOT NULL "
@@ -98,7 +99,7 @@ public class SessionDAO implements ISessionDAO {
                 + "    WHERE gs2.player_id = gs.player_id "
                 + "    AND gs2.completed = 1"
                 + ") "
-                + "ORDER BY score DESC "
+                + "ORDER BY score DESC, time_taken ASC "
                 + "FETCH FIRST 10 ROWS ONLY";
         try (Statement stmt = db.getConnection().createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {

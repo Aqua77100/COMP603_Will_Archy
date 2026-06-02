@@ -198,7 +198,7 @@ class StorageScene extends Scene {
             engine.window.showPanel(new JPanel());
             loadTextQueue(
                     "Access Granted.",
-                    engine.player.name + ": \"Hopefully the power grid in here is still intact.\"",
+                    engine.player.getName() + ": \"Hopefully the power grid in here is still intact.\"",
                     "I enter the factory..."
             );
             nextLine(engine);

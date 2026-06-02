@@ -19,7 +19,7 @@ class HallwayScene extends Scene {
         // Load all intro lines into the queue
         loadTextQueue(
                 engine.dm.getDialogue("hallway_intro"),
-                engine.player.name + ": " + engine.dm.getDialogue("hallway_intro_d1"),
+                engine.player.getName() + ": " + engine.dm.getDialogue("hallway_intro_d1"),
                 engine.dm.getDialogue("hallway_intro_d2"),
                 engine.dm.getDialogue("hallway_choice")
         );
@@ -63,7 +63,7 @@ class HallwayScene extends Scene {
                 madeIt = true;
                 loadTextQueue(
                         "You made it through!",
-                        engine.player.name + ": \"Gotta hide.\""
+                        engine.player.getName() + ": \"Gotta hide.\""
                 );
                 nextLine(engine);
                 showContinueButton(engine);

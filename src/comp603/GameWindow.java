@@ -202,12 +202,12 @@ public class GameWindow extends JFrame {
     }
 
     void updateHealth() {
-        int hp = Math.max(0, engine.player.health);
+        int hp = Math.max(0, engine.player.getHealth());
         StringBuilder pips = new StringBuilder();
         for (int i = 0; i < 10; i++) {
             pips.append(i < hp ? "◆" : "◇");
         }
-        healthLabel.setText(pips + "  " + hp + "/10  |  " + (engine.player.name == null ? "Worker" : engine.player.name));
+        healthLabel.setText(pips + "  " + hp + "/10  |  " + (engine.player.getName() == null ? "Worker" : engine.player.getName()));
         healthLabel.setForeground(hp > 6
                 ? new Color(80, 180, 80) : hp > 3
                         ? new Color(210, 170, 50)
@@ -397,11 +397,22 @@ public class GameWindow extends JFrame {
             } else {
                 int rank = 1;
                 for (var s : sessions) {
-                    sb.append(rank++).append(". ")
-                            .append(s.playerName).append("  |  ")
+                    // Calculate time taken
+                    String time = "N/A";
+                    if (s.startTime != null && s.endTime != null) {
+                        long millis = s.endTime.getTime() - s.startTime.getTime();
+                        long minutes = millis / 60000;
+                        long seconds = (millis % 60000) / 1000;
+                        time = minutes + "m " + seconds + "s";
+                    }
+
+                    sb.append(rank++).append(". ").append(s.playerName).append("\n")
+                            .append("   Score: ").append(s.score).append("  |  ")
                             .append("HP: ").append(s.healthRemaining).append("  |  ")
                             .append("Deaths: ").append(s.deathCount).append("  |  ")
-                            .append(s.endingChosen).append("\n");
+                            .append(s.endingChosen).append("  |  ")
+                            .append("Time: ").append(time)
+                            .append("\n\n");
                 }
             }
         } catch (Exception e) {
@@ -470,16 +481,16 @@ public class GameWindow extends JFrame {
         layeredPane.revalidate();
         layeredPane.repaint();
     }
-    
-    public void hideHUD(){
+
+    public void hideHUD() {
         SwingUtilities.invokeLater(() -> {
             healthLabel.setVisible(false);
         });
     }
-    
+
     public void showHUD() {
-    SwingUtilities.invokeLater(() -> {
-        healthLabel.setVisible(true);
-    });
-}
+        SwingUtilities.invokeLater(() -> {
+            healthLabel.setVisible(true);
+        });
+    }
 }

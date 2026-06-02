@@ -118,11 +118,11 @@ public class IntroScene extends Scene {
                 return;
             }
             engine.window.setBackground("");
-            engine.player.name = name;
+            engine.player.setName(name);
             engine.registerPlayer(name);
             engine.window.setInputActive(false);
             engine.window.showPanel(new JPanel()); // clear input
-            engine.window.showText("Welcome, " + engine.player.name + ".");
+            engine.window.showText("Welcome, " + engine.player.getName() + ".");
             engine.window.updateHealth();
 
             List<String[]> cont = new ArrayList<>();

@@ -21,11 +21,11 @@ class FactoryScene extends Scene {
 
         // 2. Show opening dialogue
         loadTextQueue(
-                engine.player.name + ": \"What the-\"",
+                engine.player.getName() + ": \"What the-\"",
                 engine.dm.getDialogue("factory_enter"),
                 engine.dm.getDialogue("factory_enter2"),
                 engine.dm.getDialogue("factory_boss1"),
-                engine.player.name + ": \"What? L-Look, I just need to shut this system down!\"",
+                engine.player.getName() + ": \"What? L-Look, I just need to shut this system down!\"",
                 engine.dm.getDialogue("factory_d1"),
                 engine.dm.getDialogue("factory_boss2"),
                 engine.dm.getDialogue("factory_boss3")
@@ -113,7 +113,7 @@ class FactoryScene extends Scene {
                 choseSave = true;
                 loadTextQueue(
                         engine.dm.getDialogue("win_save"),
-                        engine.player.name + ": " + engine.dm.getDialogue("win_save_d1"),
+                        engine.player.getName() + ": " + engine.dm.getDialogue("win_save_d1"),
                         engine.dm.getDialogue("win_save_d2"),
                         engine.dm.getDialogue("win_save_d3")
                 );
@@ -129,7 +129,7 @@ class FactoryScene extends Scene {
                 loadTextQueue(
                         engine.dm.getDialogue("win_abandon"),
                         engine.dm.getDialogue("win_abandon_d1"),
-                        engine.player.name + ": " + engine.dm.getDialogue("win_abandon_d2")
+                        engine.player.getName() + ": " + engine.dm.getDialogue("win_abandon_d2")
                 );
                 endingStarted = true;
                 nextLine(engine);
@@ -163,7 +163,7 @@ class FactoryScene extends Scene {
         engine.window.setBackground("src/images/credits.jpg");
         engine.window.showText(
                 engine.dm.getDialogue("the_end") + "\n\n"
-                + "Thank you for playing, " + engine.player.name + "."
+                + "Thank you for playing, " + engine.player.getName() + "."
         );
 
         List<String[]> choices = new ArrayList<>();

@@ -116,13 +116,13 @@ public class GameEngine {
         // Check players best previous score
         int bestHealth = sessionDAO.getBestHealth(currentPlayerId);
 
-        if (bestHealth == -1 || player.health > bestHealth) {
+        if (bestHealth == -1 || player.getHealth() > bestHealth) {
             // New high score — save it
-            sessionDAO.completeSession(currentSessionId, player.health, deathCount, endingChosen);
-            System.out.println("New high score saved: " + player.health + " HP");
+            sessionDAO.completeSession(currentSessionId, player.getHealth(), deathCount, endingChosen);
+            System.out.println("New high score saved: " + player.getHealth() + " HP");
         } else {
             // Not a high score — still complete the session but mark it
-            sessionDAO.completeSession(currentSessionId, player.health, deathCount, endingChosen);
+            sessionDAO.completeSession(currentSessionId, player.getHealth(), deathCount, endingChosen);
             System.out.println("Score saved but not a new high score. Best: " + bestHealth + " HP");
         }
     }
