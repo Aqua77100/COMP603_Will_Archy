@@ -25,7 +25,7 @@ public class GameEngine {
     private Scene currentScene;
 
     // database layer
-    public DatabaseManager db = new DatabaseManager();
+    public DatabaseManager db = DatabaseManager.getInstance();
     public IPlayerDAO playerDAO;
     public ISessionDAO sessionDAO;
     public IDeathLogDAO deathLogDAO;
@@ -74,7 +74,10 @@ public class GameEngine {
     // Method for changing the scene to the next
     public void setScene(Scene newScene) {
         this.currentScene = newScene;
-        newScene.buildUI(this);
+        SwingUtilities.invokeLater(() -> {
+            newScene.buildUI(this);            
+        });
+
     }
 
     public void handleChoice(String key) {

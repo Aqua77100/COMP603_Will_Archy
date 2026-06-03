@@ -65,14 +65,6 @@ class StorageScene extends Scene {
                     nextLine(engine);
                     if (!succeeded) {
                         // Intro queue background swaps
-                        switch (queueIndex) {
-                            case 2:
-                                engine.window.setBackground("src/images/storageentry1.jpg");
-                                break;
-                            case 3:
-                                engine.window.setBackground("src/images/storagehide1.jpg");
-                                break;
-                        }
                         if(queueIndex == 2 && !accessGranted){
                             engine.window.setBackground("src/images/storageentry1.jpg");
                         } else if(queueIndex == 3 && !accessGranted){

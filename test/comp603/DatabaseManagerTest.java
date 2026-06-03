@@ -27,7 +27,7 @@ public class DatabaseManagerTest {
     // Set up the DB manager BEFORE testing anything related to the DB
     @Before
     public void setUp() {
-        dbManager = new DatabaseManager();
+        dbManager = DatabaseManager.getInstance();
     }
 
     @After

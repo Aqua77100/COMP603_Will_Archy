@@ -11,9 +11,21 @@ import java.sql.*;
  * @author willpurdon
  */
 public class DatabaseManager {
+    // singleton instance
+    private static DatabaseManager instance;
 
     private static final String DB_URL = "jdbc:derby:GameDB;create=true";
     private Connection conn;
+    
+    // private constructor - prevents direct instantiation
+    private DatabaseManager(){}
+    
+    public static DatabaseManager getInstance(){
+        if(instance == null){
+            instance = new DatabaseManager();
+        }
+        return instance;
+    }
 
     public Connection getConnection() {
         return conn;

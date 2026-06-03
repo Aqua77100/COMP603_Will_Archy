@@ -53,7 +53,7 @@ class SecurityScene extends Scene {
                     } else if(queueIndex == 3 && revealDone){
                         engine.window.setBackground("src/images/password_terminal1.jpg"); 
                         System.out.println("pasword");
-                    } else if(queueIndex == 5 && revealDone){
+                    } else if(queueIndex == 5 && revealDone){ // here
                         engine.window.setBackground("src/images/factorydoor_open.jpg"); 
                         System.out.println("granted");
                     } 
@@ -66,9 +66,10 @@ class SecurityScene extends Scene {
                         revealDone = true;
                         goToPasswordReveal(engine);
                     } else {
-                        List<String[]> cont = new ArrayList<>();
-                        cont.add(new String[]{"Continue →", "continue_to_storage"});
-                        engine.window.setChoices(cont);
+//                        List<String[]> cont = new ArrayList<>();
+//                        cont.add(new String[]{"Continue →", "continue_to_storage"});
+//                        engine.window.setChoices(cont);
+                        SwingUtilities.invokeLater(() -> engine.setScene(new StorageScene()));
                     }
                 }
                 break;
