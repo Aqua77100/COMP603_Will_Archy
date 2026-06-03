@@ -67,7 +67,7 @@ public class IntroScene extends Scene {
                 break;
 
             case "next_scene":
-                engine.window.setInputActive(false);
+                //engine.window.setInputActive(false);
                 engine.setScene(new HallwayScene());
                 break;
         }
@@ -75,7 +75,7 @@ public class IntroScene extends Scene {
 
     private void showNameInput(GameEngine engine) {
         engine.window.showText(engine.dm.getDialogue("username"));
-        engine.window.setInputActive(true);
+        //engine.window.setInputActive(true);
 
         JPanel namePanel = new JPanel(new BorderLayout(8, 0));
         namePanel.setOpaque(false);
@@ -120,7 +120,7 @@ public class IntroScene extends Scene {
             engine.window.setBackground("");
             engine.player.setName(name);
             engine.registerPlayer(name);
-            engine.window.setInputActive(false);
+            //engine.window.setInputActive(false);
             engine.window.showPanel(new JPanel()); // clear input
             engine.window.showText("Welcome, " + engine.player.getName() + ".");
             engine.window.updateHealth();

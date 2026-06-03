@@ -149,7 +149,7 @@ class StorageScene extends Scene {
 
     private void showPasswordPrompt(GameEngine engine) {
         engine.window.showText(engine.dm.getDialogue("factory_prompt"));
-        engine.window.setInputActive(true);
+        //engine.window.setInputActive(true);
 
         JPanel passPanel = new JPanel(new BorderLayout(8, 0));
         passPanel.setOpaque(false);
@@ -177,7 +177,7 @@ class StorageScene extends Scene {
         ));
 
         Runnable submit = () -> {
-            engine.window.setInputActive(false);
+            //engine.window.setInputActive(false);
             handlePasswordAttempt(engine, passField);
         };
 
@@ -188,7 +188,11 @@ class StorageScene extends Scene {
         passPanel.add(submitBtn, BorderLayout.EAST);
 
         engine.window.showPanel(passPanel);
-        SwingUtilities.invokeLater(() -> passField.requestFocusInWindow());
+        
+        SwingUtilities.invokeLater(() -> {
+            //engine.window.setInputActive(true);
+            passField.requestFocusInWindow();
+                });
     }
 
     private void handlePasswordAttempt(GameEngine engine, JTextField passField) {

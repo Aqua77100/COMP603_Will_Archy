@@ -48,7 +48,7 @@ public class GameWindow extends JFrame {
     private JPanel choicesPanel;
     private JLabel healthLabel;
     private GameEngine engine;
-    private boolean inputActive = false;
+    //private boolean inputActive = false;
     private JButton titleStartBtn;
     private JButton titleLeaderboardBtn;
     private JButton titleQuitBtn;
@@ -62,16 +62,16 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            @Override
-            public void keyPressed(java.awt.event.KeyEvent e) {
-                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && !inputActive) {
-                    engine.handleChoice("continue");
-                }
-            }
-        });
-        setFocusable(true);
-        requestFocusInWindow();
+//        addKeyListener(new java.awt.event.KeyAdapter() {
+//            @Override
+//            public void keyPressed(java.awt.event.KeyEvent e) {
+//                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && !inputActive) {
+//                    engine.handleChoice("continue");
+//                }
+//            }
+//        });
+//        setFocusable(true);
+//        requestFocusInWindow();
 
         layeredPane = new JLayeredPane() {
             @Override
@@ -107,12 +107,12 @@ public class GameWindow extends JFrame {
         buildDialogueOverlay();
     }
 
-    public void setInputActive(boolean active) {
-        this.inputActive = active;
-        if (!active) {
-            requestFocusInWindow();
-        }
-    }
+//    public void setInputActive(boolean active) {
+//        this.inputActive = active;
+//        if (!active) {
+//            requestFocusInWindow();
+//        }
+//    }
 
     private void buildBackgroundLayer() {
         backgroundImage = new JLabel();
