@@ -64,4 +64,5 @@ win_save_d3=Robot: "Welcome to A&W, I am Janitorial Bot Three. How can I assist 
 the_end=THE END.
 win_abandon=Its eyes flicker as a distorted voice makes you shift your feet.
 win_abandon_d1=Robot: "N-No... Don't leave me. They always leave—I-I J-Janitorial B-Bot Th-"
-win_abandon_d2="What on Earth?"\nMy feet shuffle back, I need to leave. Its words run laps in my mind as I stumble away.\nIt sounded so... human.\nI do my best to ignore the infantile droid wailing as I exit the Facility. I don't get paid enough for that.\n
+win_abandon_d2="What on Earth?"\nMy feet shuffle back, I need to leave. Its words run laps in my mind as I stumble away.\nIt sounded so... human.
+win_abandon_d3=I do my best to ignore the infantile droid wailing as I exit the Facility.\nI don't get paid enough for that.

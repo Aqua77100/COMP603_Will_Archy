@@ -129,7 +129,8 @@ class FactoryScene extends Scene {
                 loadTextQueue(
                         engine.dm.getDialogue("win_abandon"),
                         engine.dm.getDialogue("win_abandon_d1"),
-                        engine.player.getName() + ": " + engine.dm.getDialogue("win_abandon_d2")
+                        engine.player.getName() + ": " + engine.dm.getDialogue("win_abandon_d2"),
+                        engine.dm.getDialogue("win_abandon_d3")
                 );
                 endingStarted = true;
                 nextLine(engine);
