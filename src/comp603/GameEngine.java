@@ -68,6 +68,7 @@ public class GameEngine {
         }
 
         currentSessionId = sessionDAO.createSession(currentPlayerId);
+        deathCount = 0;
         System.out.println("player registered: " + name + " - player ID: " + currentPlayerId + " - session ID: " + currentSessionId);
     }
 
